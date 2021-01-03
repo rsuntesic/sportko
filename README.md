@@ -18,7 +18,7 @@ Kratki opis funkcionalnosti:
   smanjili bi  se upiti upućeni treneru mailom i telefonom. Frontend aplikacije smo mislili izraditi u vue frameworku,
   a baza bi bila izrađena u PostgreSQL-u.  
 
-Zaduženja (planirana) po članu tima: Matija Oršulić (Backend)
+Zaduženja (planirana) po članu tima: Matija Oršulić (Backend), Rudolf Suntešić (Backend)
 
 ## Project setup
 ```
