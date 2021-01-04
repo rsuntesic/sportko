@@ -27,7 +27,7 @@
                 v-model="password"
                 class="form-control"
                 id="exampleInputPassword1"
-                placeholder="Password" 
+                placeholder="Password"
               />
             </div>
             <div class="form-group">
@@ -40,7 +40,9 @@
                 placeholder="Password"
               />
             </div>
-           <button type="button" @click="signup" class="btn btn-primary">Submit</button>
+            <button type="button" @click="signup" class="btn btn-primary">
+              Submit
+            </button>
           </form>
         </div>
         <div class="col-sm"></div>
@@ -51,29 +53,29 @@
 <script>
 import { firebase } from "@/firebase.js";
 export default {
-    name:'Signup',
-    data() {
-        return {
-            username: '',
-            password: '',
-            passwordRepeat: '',
-        
-        };
+  name: "Signup",
+  data() {
+    return {
+      username: "",
+      password: "",
+      passwordRepeat: "",
+    };
+  },
+
+  methods: {
+    signup() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.username, this.password)
+        .then(function() {
+          console.log("Uspješna registracija");
+        })
+        .catch(function(error) {
+          console.error("Došlo je do greške", error);
+        });
+
+      console.log("Nastavak");
     },
-
-    methods: {
-        signup() {
-            firebase.auth().createUserWithEmailAndPassword(this.username, this.password).then(
-             function(){
-                 console.log("Uspješna registracija");
-             })
-            .catch(function(error){
-              console.error("Došlo je do pogreške",error)
-            });
-
-
-            console.log("Nastavak");
-        },
-    }, 
+  },
 };
 </script>
