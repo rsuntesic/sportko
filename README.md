@@ -16,7 +16,7 @@ Kratki opis funkcionalnosti:
   tako bi korisnik mogao lako doći do saznanja koje članarine je podmirio, a koje još mora podmiriti.
   Aplikacija bi olakšala i rad trenera jer bi imao bolji pregled podataka i plaćenih članarina, a i 
   smanjili bi  se upiti upućeni treneru mailom i telefonom. Frontend aplikacije smo mislili izraditi u vue frameworku,
-  a baza bi bila izrađena u PostgreSQL-u.  
+  a baza bi bila izrađena u Firebase-u.  
 
 Zaduženja (planirana) po članu tima: Matija Oršulić (Backend), Rudolf Suntešić (Backend).
 
