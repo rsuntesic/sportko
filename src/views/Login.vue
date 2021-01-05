@@ -56,8 +56,9 @@ export default {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.username, this.password)
-        .then(function(resault) {
+        .then((resault) => {
           console.log("Uspješna prijava", resault);
+          this.$router.replace({ name: "Home" });
         })
         .catch(function(e) {
           console.error("Došlo je do pogreške", e);
