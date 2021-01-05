@@ -19,7 +19,7 @@ Aplikacija bi olakšala i rad trenera jer bi imao bolji pregled podataka i plać
 smanjili bi se upiti upućeni treneru mailom i telefonom. Frontend aplikacije smo mislili izraditi u vue frameworku,
 a baza bi bila izrađena u Firebase-u.
 
-Zaduženja (planirana) po članu tima: Matija Oršulić (Backend), Rudolf Suntešić (Backend),.
+Zaduženja (planirana) po članu tima: Matija Oršulić (Backend), Rudolf Suntešić (Backend).
 
 ## Project setup
 

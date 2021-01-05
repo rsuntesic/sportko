@@ -4,7 +4,11 @@
       <router-link to="/">Home</router-link>
       <router-link v-if="!store.currentUser" to="/Login">Login</router-link>
       <router-link v-if="!store.currentUser" to="/signUp">Sign up</router-link>
-      <a href="#" v-if="store.currentUser" @click="logout" class="nav-link"
+      <a
+        href="#"
+        v-if="store.currentUser"
+        @click.prevent="logout"
+        class="nav-link"
         >Logout</a
       >
     </div>
@@ -15,6 +19,7 @@
 <script>
 import store from "@/store.js";
 import { firebase } from "@/firebase";
+import router from "@/router";
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -25,6 +30,10 @@ firebase.auth().onAuthStateChanged((user) => {
     //user is not signed in.
     console.log("***No user");
     store.currentUser = null;
+
+    if (route.name !== "Login") {
+      router.push({ name: "Login" });
+    }
   }
 });
 
