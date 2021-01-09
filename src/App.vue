@@ -1,17 +1,56 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link v-if="!store.currentUser" to="/Login">Login</router-link>
-      <router-link v-if="!store.currentUser" to="/signUp">Sign up</router-link>
-      <a
-        href="#"
-        v-if="store.currentUser"
-        @click.prevent="logout"
-        class="nav-link"
-        >Logout</a
-      >
-    </div>
+    <nav id="nav" class="navbar navbar-expand-lg navbar-light">
+      <!-- Image and text -->
+      <a class="navbar-brand" href="#">
+        <img
+          src="@/assets/logo.png"
+          height="40"
+          class="d-inline-block align-top"
+          alt=""
+          loading="lazy"
+        />
+      </a>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <router-link
+              to="/"
+              v-if="store.currentUser"
+              src="@/assets/logo.png"
+            >
+            </router-link>
+          </li>
+          <router-link v-if="!store.currentUser" to="/Login">
+            Login
+          </router-link>
+          <li class="nav-item">
+            <router-link v-if="!store.currentUser" to="/signUp">
+              Sign up
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              href="#"
+              v-if="store.currentUser"
+              @click.prevent="logout"
+              class="nav-link"
+            >
+              Logout
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <form class="form-inline my-2 my-lg-0">
+        <input
+          v-model="store.searchTerm"
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Pretraga"
+          aria-label="Search"
+        />
+      </form>
+    </nav>
     <router-view />
   </div>
 </template>
