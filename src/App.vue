@@ -11,14 +11,6 @@
           loading="lazy"
         />
       </a>
-      <a
-        href="#"
-        v-if="store.currentUser"
-        @click.prevent="logout"
-        class="nav-link"
-      >
-        Logout
-      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -40,8 +32,18 @@
             ></router-link>
           </li>
           <li class="nav-item">
+            <router-link v-if="store.currentUser" to="/Clanarine"
+              >Članrine</router-link
+            >
+          </li>
+          <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Clanovi"
               >Članovi</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link v-if="store.currentUser" to="/Kategorije"
+              >Kategorija</router-link
             >
           </li>
           <li class="nav-item">
@@ -55,6 +57,14 @@
             >
           </li>
         </ul>
+        <a
+          href="#"
+          v-if="store.currentUser"
+          @click.prevent="logout"
+          class="nav-link"
+        >
+          Logout
+        </a>
         <form class="form-inline">
           <input
             class="form-control mr-sm-2"

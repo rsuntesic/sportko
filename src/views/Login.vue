@@ -1,37 +1,37 @@
 <template>
   <div class="login">
-    <h1>This is an login page</h1>
+    <h1>Logiranje korisnika</h1>
     <div class="container">
       <div class="row">
         <div class="col-sm"></div>
         <div class="col-sm">
           <form>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
+              <label for="email1">Email adresa</label>
               <input
                 type="email"
-                v-model="username"
+                v-model="korisnik"
                 class="form-control"
-                id="exampleInputEmail1"
+                id="email"
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Email"
               />
               <small id="emailHelp" class="form-text text-muted"
-                >We'll never share your email with anyone else.</small
+                >Vaš email je siguran s nama.</small
               >
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
+              <label for="lozinka1">Lozinka</label>
               <input
-                type="password"
-                v-model="password"
+                type="lozinka1"
+                v-model="lozinka"
                 class="form-control"
-                id="exampleInputPassword1"
-                placeholder="Password"
+                id="lozinka1"
+                placeholder="Lozinka"
               />
             </div>
             <button type="button" @click="login" class="btn btn-primary">
-              Submit
+              Potvrdi
             </button>
           </form>
         </div>
@@ -46,8 +46,8 @@ export default {
   name: "login",
   data() {
     return {
-      username: "",
-      password: "",
+      korisnik: "",
+      lozinka: "",
     };
   },
 
@@ -55,7 +55,7 @@ export default {
     login() {
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.username, this.password)
+        .signInWithEmailAndPassword(this.korisnik, this.lozinka)
         .then((resault) => {
           console.log("Uspješna prijava", resault);
         })

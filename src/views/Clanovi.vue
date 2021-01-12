@@ -1,18 +1,18 @@
 <template>
   <div class="clanovi">
-    <h1>Popis članova</h1>
+    <h1>Unos članova</h1>
     <div class="container">
       <div class="row">
         <div class="col-sm"></div>
         <div class="col-sm">
-          <form @submit.prevent="dodajKorisnika">
+          <form @submit.prevent="dodajClana">
             <div class="form-group">
               <label for="ime">Ime</label>
               <input
                 type="text"
                 v-model="ime"
                 class="form-control"
-                id="ime Korisnika"
+                id="imeKorisnika"
                 placeholder="Ime"
               />
             </div>
@@ -40,7 +40,7 @@
             <div class="form-group">
               <label for="godiste">Godište</label>
               <input
-                type="text"
+                type="number"
                 v-model="godiste"
                 class="form-control"
                 id="godiste"
@@ -50,7 +50,7 @@
             <div class="form-group">
               <label for="telefon">Telefon</label>
               <input
-                type="text"
+                type="number"
                 v-model="telefon"
                 class="form-control"
                 id="telefon"
@@ -105,7 +105,7 @@ export default {
     };
   },
   methods: {
-    dodajKorisnika() {
+    dodajClana() {
       db.collection("clanovi")
         .add({
           ime: this.ime,
