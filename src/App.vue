@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav id="nav" class="navbar navbar-expand-lg navbar-light">
       <!-- Image and text -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/">
         <img
           src="@/assets/logo.png"
           height="40"
@@ -25,54 +25,52 @@
       <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <router-link
-              to="/"
-              v-if="store.currentUser"
-              src="@/assets/logo.png"
-            ></router-link>
+            <router-link to="/" v-if="store.currentUser"
+              >Naslovnica
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Clanarine"
-              >Članrine</router-link
-            >
+              >Članrine
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Clanovi"
-              >Članovi</router-link
-            >
+              >Članovi
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Kategorije"
-              >Kategorija</router-link
-            >
+              >Kategorija
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link v-if="!store.currentUser" to="/Login"
-              >Login</router-link
-            >
+              >Login
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link v-if="!store.currentUser" to="/signUp"
-              >Sign up</router-link
-            >
+              >Sign up
+            </router-link>
           </li>
         </ul>
-        <a
-          href="#"
-          v-if="store.currentUser"
-          @click.prevent="logout"
-          class="nav-link"
-        >
-          Logout
-        </a>
         <form class="form-inline">
           <input
+            v-model="store.searchTerm"
             class="form-control mr-sm-2"
             type="search"
             placeholder="Pretraga"
             aria-label="Search"
           />
         </form>
+        <a
+          href="#"
+          v-if="store.currentUser"
+          @click.prevent="logout"
+          class="nav-link"
+          >Logout
+        </a>
       </div>
     </nav>
 
@@ -136,18 +134,18 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #4028c5;
 }
 
 #nav {
   padding: 30px;
-
+  background-color: #7562dd;
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #ffffff;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #4028c5;
     }
   }
 }

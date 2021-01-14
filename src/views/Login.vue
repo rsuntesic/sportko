@@ -23,7 +23,7 @@
             <div class="form-group">
               <label for="lozinka1">Lozinka</label>
               <input
-                type="lozinka1"
+                type="password"
                 v-model="lozinka"
                 class="form-control"
                 id="lozinka1"
