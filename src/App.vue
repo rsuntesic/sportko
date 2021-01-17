@@ -45,6 +45,11 @@
             </router-link>
           </li>
           <li class="nav-item">
+            <router-link v-if="store.currentUser" to="/KreirajNovost"
+              >Kreiraj novoost
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link v-if="!store.currentUser" to="/Login"
               >Login
             </router-link>

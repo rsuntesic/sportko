@@ -87,7 +87,6 @@ export default {
           this.ulaznoGodiste = "";
           this.izlaznoGodiste = "";
           this.trener = "";
-          s;
         })
         .catch(function(e) {
           console.error(e);

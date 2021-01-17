@@ -17,9 +17,8 @@
 <script>
 import NovostiCard from "@/components/NovostiCard.vue";
 import store from "@/store";
-let novosti = [];
-
-novosti = [
+import { db } from "@/firebase";
+/*novosti = [
   {
     url: "https://picsum.photos/id/1/400",
     naslov: "Naslov 1",
@@ -35,17 +34,26 @@ novosti = [
     naslov: "Naslov 3",
     opis: "Tekst novosti 3",
   },
-];
+];*/
 
 export default {
   name: "Home",
   data: function() {
     return {
-      novosti,
+      novosti: [],
       store,
     };
   },
+  mounted() {
+    //dohvat iz Firebasea
+    this.getPosts();
+  },
   computed: {
+    getPosts() {
+      console.log("Firebase dohvat");
+
+      db.collection("novost");
+    },
     filterdNovosti() {
       let termin = this.store.searchTerm;
 
