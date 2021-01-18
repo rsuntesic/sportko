@@ -40,6 +40,11 @@
             </router-link>
           </li>
           <li class="nav-item">
+            <router-link v-if="store.currentUser" to="/Treneri"
+              >Treneri
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Kategorije"
               >Kategorija
             </router-link>
