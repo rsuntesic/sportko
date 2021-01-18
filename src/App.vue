@@ -30,6 +30,11 @@
             </router-link>
           </li>
           <li class="nav-item">
+            <router-link v-if="store.currentUser" to="/ZapisnikTrening"
+              >Trening
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link v-if="store.currentUser" to="/Clanarine"
               >Članrine
             </router-link>

@@ -1,9 +1,11 @@
 <template>
   <div class="kategorije">
-    <h1>Unos kategorija</h1>
-    <div class="container">
+    <div class="container.fluid">
       <div class="row">
-        <div class="col-sm"></div>
+        <div class="col-1"></div>
+        <div class="col-sm">
+          <tablica-card />
+        </div>
         <div class="col-sm">
           <form @submit.prevent="dodajKategoriju">
             <div class="form-group">
@@ -51,7 +53,7 @@
             </button>
           </form>
         </div>
-        <div class="col-sm"></div>
+        <div class="col-1"></div>
       </div>
     </div>
   </div>
@@ -59,6 +61,7 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
+import TablicaCard from "@/components/TablicaCard.vue";
 export default {
   name: "Kategorije",
   data() {
@@ -92,6 +95,9 @@ export default {
           console.error(e);
         });
     },
+  },
+  components: {
+    TablicaCard,
   },
 };
 </script>
