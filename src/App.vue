@@ -5,7 +5,7 @@
       <a class="navbar-brand" href="/">
         <img
           src="@/assets/logo.png"
-          height="40"
+          height="100"
           class="d-inline-block align-top"
           alt=""
           loading="lazy"
@@ -46,7 +46,7 @@
           </li>
           <li class="nav-item">
             <router-link v-if="store.currentUser" to="/KreirajNovost"
-              >Kreiraj novoost
+              >Kreiraj novost
             </router-link>
           </li>
           <li class="nav-item">

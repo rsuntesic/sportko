@@ -64,15 +64,19 @@ export default {
 
   methods: {
     signup() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.korisnik, this.lozinka)
-        .then(function() {
-          console.log("Uspješna registracija");
-        })
-        .catch(function(error) {
-          console.error("Došlo je do greške", error);
-        });
+      if (this.lozinka === this.ponoviLozinku) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.korisnik, this.lozinka)
+          .then(function() {
+            console.log("Uspješna registracija");
+          })
+          .catch(function(error) {
+            alert(error);
+          });
+      } else {
+        alert("Lozinka i ponovljena lozinka moraju biti identične.");
+      }
 
       console.log("Nastavak");
     },

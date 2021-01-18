@@ -4,7 +4,7 @@
     <div class="col-7">
       <novosti-card
         v-for="novost in filterdNovosti"
-        :key="novost.url"
+        :key="novost.id"
         :info="novost"
       />
     </div>
@@ -18,23 +18,6 @@
 import NovostiCard from "@/components/NovostiCard.vue";
 import store from "@/store";
 import { db } from "@/firebase";
-/*novosti = [
-  {
-    url: "https://picsum.photos/id/1/400",
-    naslov: "Naslov 1",
-    opis: "Tekst novosti 1",
-  },
-  {
-    url: "https://picsum.photos/id/2/400",
-    naslov: "Naslov 2",
-    opis: "Tekst novosti 2",
-  },
-  {
-    url: "https://picsum.photos/id/3/400",
-    naslov: "Naslov 3",
-    opis: "Tekst novosti 3",
-  },
-];*/
 
 export default {
   name: "Home",
@@ -46,13 +29,30 @@ export default {
   },
   mounted() {
     //dohvat iz Firebasea
-    this.getPosts();
+    this.getPosts;
   },
   computed: {
     getPosts() {
       console.log("Firebase dohvat");
 
-      db.collection("novost");
+      db.collection("novost")
+        .orderBy("dodano_u", "desc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.novosti = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.novosti.push({
+              id: doc.id,
+              url: data.url,
+              naslov: data.naslov,
+              opis: data.tekstNovosti,
+              vrijeme: data.dodano_u,
+            });
+          });
+        });
     },
     filterdNovosti() {
       let termin = this.store.searchTerm;
