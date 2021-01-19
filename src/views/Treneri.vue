@@ -5,8 +5,26 @@
       <div class="row">
         <div class="col-1"></div>
         <div class="col-sm">
-          <tablica-card />
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Email</th>
+                <th scope="col">Licenca</th>
+                <th scope="col">Telefon</th>
+                <th scope="col">Adresa</th>
+              </tr>
+            </thead>
+            <treneri-card
+              v-for="treneri in treneri"
+              :key="treneri.id"
+              :info="treneri"
+            />
+          </table>
         </div>
+
         <div class="col-sm">
           <form @submit.prevent="dodajTrenera">
             <div class="form-group">
@@ -84,12 +102,15 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
-import TablicaCard from "@/components/TablicaCard.vue";
+import TreneriCard from "@/components/TreneriCard.vue";
+
+let brojac = 0;
 
 export default {
   name: "Treneri",
   data() {
     return {
+      treneri: [],
       korisnik: store.currentUser,
       ime: "",
       prezime: "",
@@ -97,6 +118,7 @@ export default {
       licenca: "",
       telefon: "",
       adresa: "",
+      brojac,
     };
   },
 
@@ -134,43 +156,33 @@ export default {
   },
   computed: {
     getPosts() {
-      console.log("Firebase dohvat");
-
       db.collection("treneri")
-        .orderBy("dodano_u", "desc")
+        .orderBy("ime", "asc")
         .limit(10)
         .get()
         .then((query) => {
-          this.novosti = [];
+          this.treneri = [];
+          brojac = 0;
           query.forEach((doc) => {
             const data = doc.data();
+            brojac++;
 
-            this.novosti.push({
+            this.treneri.push({
               id: doc.id,
-              url: data.url,
-              naslov: data.naslov,
-              opis: data.tekstNovosti,
-              vrijeme: data.dodano_u,
+              ime: data.ime,
+              prezime: data.prezime,
+              licenca: data.licenca,
+              telefon: data.telefon,
+              email: data.email,
+              adresa: data.adresa,
+              brojac: brojac,
             });
           });
         });
     },
-    filterdNovosti() {
-      let termin = this.store.searchTerm;
-
-      //PROBLEM VELIKA SLOVA------------------------------------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      //funkcijska metoda filter
-      return this.novosti.filter((novost) => novost.naslov.includes(termin));
-
-      /* for (let novost of this.novosti) {
-        if (novost.naslov.indexOf(termin) >= 0) {
-          noveNovosti.push(novost);
-        }
-      }*/
-    },
   },
   components: {
-    TablicaCard,
+    TreneriCard,
   },
 };
 </script>

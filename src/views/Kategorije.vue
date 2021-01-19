@@ -4,7 +4,22 @@
       <div class="row">
         <div class="col-1"></div>
         <div class="col-sm">
-          <tablica-card />
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Naziv</th>
+                <th scope="col">Ulazno godište</th>
+                <th scope="col">Izlazno godište</th>
+                <th scope="col">Trener</th>
+              </tr>
+            </thead>
+            <kategorija-card
+              v-for="kategorije in kategorije"
+              :key="kategorije.id"
+              :info="kategorije"
+            />
+          </table>
         </div>
         <div class="col-sm">
           <form @submit.prevent="dodajKategoriju">
@@ -40,13 +55,18 @@
             </div>
             <div class="form-group">
               <label for="trener">Trener</label>
-              <input
-                type="text"
-                v-model="trener"
+              <select
                 class="form-control"
                 id="trener"
-                placeholder="Trener"
-              />
+                type="text"
+                v-model="trener"
+              >
+                <padajuci-card
+                  v-for="padajuci in padajuci"
+                  :key="padajuci.id"
+                  :info="padajuci"
+                />
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi
@@ -61,11 +81,17 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
-import TablicaCard from "@/components/TablicaCard.vue";
+import KategorijaCard from "@/components/KategorijaCard.vue";
+import PadajuciCard from "@/components/PadajuciCard.vue";
+
+let brojac = 0;
+
 export default {
   name: "Kategorije",
   data() {
     return {
+      padajuci: [],
+      kategorije: [],
       korisnik: store.currentUser,
       naziv: "",
       ulaznoGodiste: "",
@@ -96,8 +122,57 @@ export default {
         });
     },
   },
+  mounted() {
+    //dohvat iz Firebasea
+    this.getTreneri;
+    this.getPosts;
+  },
+  computed: {
+    getTreneri() {
+      db.collection("treneri")
+        .limit(25)
+        .get()
+        .then((query) => {
+          this.padajuci = [];
+
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.padajuci.push({
+              id: doc.id,
+              naziv: data.email,
+            });
+          });
+        });
+    },
+    getPosts() {
+      db.collection("kategorije")
+        .orderBy("ulaznoGodiste", "asc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.kategorije = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.kategorije.push({
+              id: doc.id,
+              naziv: data.naziv,
+              ulaznoGodiste: data.ulaznoGodiste,
+              izlaznoGodiste: data.izlaznoGodiste,
+              trener: data.trener,
+              brojac: brojac,
+            });
+          });
+        });
+    },
+  },
+
   components: {
-    TablicaCard,
+    KategorijaCard,
+    PadajuciCard,
   },
 };
 </script>

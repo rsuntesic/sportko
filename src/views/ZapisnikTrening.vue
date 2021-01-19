@@ -35,14 +35,12 @@ export default {
   computed: {
     getPosts() {
       console.log("Firebase dohvat");
-
       db.collection("clanovi")
         .get()
         .then((query) => {
           this.unos = [];
           query.forEach((doc) => {
             const data = doc.data();
-
             this.unos.push({
               id: doc.id,
               ime: data.ime,

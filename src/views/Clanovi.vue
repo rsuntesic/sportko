@@ -4,7 +4,25 @@
       <div class="row">
         <div class="col-1"></div>
         <div class="col-sm">
-          <tablica-card />
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Email</th>
+                <th scope="col">Godište</th>
+                <th scope="col">Telefon</th>
+                <th scope="col">Adresa</th>
+                <th scope="col">Kategorija</th>
+              </tr>
+            </thead>
+            <clanovi-card
+              v-for="clanovi in clanovi"
+              :key="clanovi.id"
+              :info="clanovi"
+            />
+          </table>
         </div>
         <div class="col-sm">
           <form @submit.prevent="dodajClana">
@@ -71,13 +89,18 @@
             </div>
             <div class="form-group">
               <label for="kategorija">Kategorija</label>
-              <input
-                type="text"
-                v-model="kategorija"
+              <select
                 class="form-control"
                 id="kategorija"
-                placeholder="Kategorija"
-              />
+                type="text"
+                v-model="kategorija"
+              >
+                <padajuci-card
+                  v-for="padajuci in padajuci"
+                  :key="padajuci.id"
+                  :info="padajuci"
+                />
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi
@@ -92,12 +115,17 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
-import TablicaCard from "@/components/TablicaCard.vue";
+import ClanoviCard from "@/components/ClanoviCard.vue";
+import PadajuciCard from "@/components/PadajuciCard.vue";
+
+let brojac = 0;
 
 export default {
   name: "Clanovi",
   data() {
     return {
+      padajuci: [],
+      clanovi: [],
       trener: store.currentUser,
       ime: "",
       prezime: "",
@@ -106,6 +134,7 @@ export default {
       telefon: "",
       adresa: "",
       kategorija: "",
+      brojac,
     };
   },
   methods: {
@@ -137,8 +166,59 @@ export default {
         });
     },
   },
+  mounted() {
+    //dohvat iz Firebasea
+    this.getKategorije;
+    this.getPosts;
+  },
+  computed: {
+    getKategorije() {
+      db.collection("kategorije")
+        .limit(25)
+        .get()
+        .then((query) => {
+          this.padajuci = [];
+
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.padajuci.push({
+              id: doc.id,
+              naziv: data.naziv,
+            });
+          });
+        });
+    },
+    getPosts() {
+      db.collection("clanovi")
+        .orderBy("ime", "asc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.clanovi = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.clanovi.push({
+              id: doc.id,
+              ime: data.ime,
+              prezime: data.prezime,
+              godiste: data.godiste,
+              telefon: data.telefon,
+              email: data.email,
+              adresa: data.adresa,
+              kategorija: data.kategorija,
+              brojac: brojac,
+            });
+          });
+        });
+    },
+  },
   components: {
-    TablicaCard,
+    ClanoviCard,
+    PadajuciCard,
   },
 };
 </script>

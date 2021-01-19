@@ -4,7 +4,22 @@
       <div class="row">
         <div class="col-1"></div>
         <div class="col-sm">
-          <tablica-card />
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Naziv</th>
+                <th scope="col">Podmireno</th>
+                <th scope="col">Cijena</th>
+                <th scope="col">Član</th>
+              </tr>
+            </thead>
+            <clanarine-card
+              v-for="clanarine in clanarine"
+              :key="clanarine.id"
+              :info="clanarine"
+            />
+          </table>
         </div>
         <div class="col-sm">
           <form @submit.prevent="dodajClanarinu">
@@ -44,13 +59,13 @@
             </div>
             <div class="form-group">
               <label for="clan">Član</label>
-              <input
-                type="text"
-                v-model="clan"
-                class="form-control"
-                id="clan"
-                placeholder="Član"
-              />
+              <select class="form-control" id="clan" type="text" v-model="clan">
+                <padajuci-card
+                  v-for="padajuci in padajuci"
+                  :key="padajuci.id"
+                  :info="padajuci"
+                />
+              </select>
             </div>
             <div class="form-group">
               <label for="cijena">Cijena</label>
@@ -75,16 +90,23 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
-import TablicaCard from "@/components/TablicaCard.vue";
+import ClanarineCard from "@/components/ClanarineCard.vue";
+import PadajuciCard from "@/components/PadajuciCard.vue";
+
+let brojac = 0;
+
 export default {
   name: "Clanarine",
   data() {
     return {
+      padajuci: [],
+      clanarine: [],
       trener: store.currentUser,
       mjesec: "",
       podmireno: "",
       clan: "",
       cijena: "",
+      brojac,
     };
   },
   methods: {
@@ -110,8 +132,56 @@ export default {
         });
     },
   },
+  mounted() {
+    //dohvat iz Firebasea
+    this.getClanove;
+    this.getPosts;
+  },
+  computed: {
+    getClanove() {
+      db.collection("clanovi")
+        .limit(25)
+        .get()
+        .then((query) => {
+          this.padajuci = [];
+
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.padajuci.push({
+              id: doc.id,
+              naziv: data.email,
+            });
+          });
+        });
+    },
+    getPosts() {
+      db.collection("clanarina")
+        .orderBy("mjesec", "asc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.clanarine = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.clanarine.push({
+              id: doc.id,
+              mjesec: data.mjesec,
+              podmireno: data.podmireno,
+              cijena: data.cijena,
+              clan: data.clan,
+              brojac: brojac,
+            });
+          });
+        });
+    },
+  },
   components: {
-    TablicaCard,
+    ClanarineCard,
+    PadajuciCard,
   },
 };
 </script>
