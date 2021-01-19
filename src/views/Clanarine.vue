@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     dodajClanarinu() {
-      db.collection("clanarina")
+      db.collection("clanarine")
         .add({
           mjesec: this.mjesec,
           podmireno: this.podmireno,
@@ -156,7 +156,7 @@ export default {
         });
     },
     getPosts() {
-      db.collection("clanarina")
+      db.collection("clanarine")
         .orderBy("mjesec", "asc")
         .limit(10)
         .get()
