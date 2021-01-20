@@ -4,29 +4,72 @@
     <div class="col-sm">
       <h2>Popis igraca na treningu:</h2>
       <form @submit.prevent="dodajTrening">
-        <unos-card v-for="unos in unos" :key="unos.id" :info="unos" />
+        <div class="form-group">
+          <label for="clanovi">Clanovi</label>
+          <select
+            v-for="brojIgraca in brojIgraca"
+            :key="brojIgraca"
+            class="form-control"
+            id="trener"
+            type="text"
+            v-model="trener"
+          >
+            <padajuci-card
+              v-for="padajuci in padajuci"
+              :key="padajuci.id"
+              :info="padajuci"
+            />
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary">
           Potvrdi
         </button>
       </form>
     </div>
     <div class="col-sm">
-      Sidebar
+      <form @submit.prevent="brIgraca">
+        <div class="form-group">
+          <label for="brojIgraca">Broj igraca na treningu</label>
+          <input
+            type="number"
+            v-model="brojac"
+            class="form-control"
+            id="brojIgraca"
+            placeholder="Broj igraca"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Potvrdi
+        </button>
+      </form>
     </div>
   </div>
 </template>
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
-import UnosCard from "@/components/UnosCard.vue";
+import PadajuciCard from "@/components/PadajuciCard.vue";
+let brojac = 0;
 export default {
-  components: { UnosCard },
+  components: { PadajuciCard },
   name: "ZapisniTreninga",
   data() {
     return {
       korisnik: store.currentUser,
-      unos: [],
+      padajuci: [],
+      brojac: "",
+      brojIgraca: [],
     };
+  },
+  methods: {
+    brIgraca() {
+      let i = 0;
+      for (i; i < this.brojac; i++) {
+        this.brojIgraca.push({
+          br: i,
+        });
+      }
+    },
   },
   mounted() {
     //dohvat iz Firebasea
@@ -38,19 +81,15 @@ export default {
       db.collection("clanovi")
         .get()
         .then((query) => {
-          this.unos = [];
+          this.padajuci = [];
           query.forEach((doc) => {
             const data = doc.data();
-            this.unos.push({
+            this.padajuci.push({
               id: doc.id,
-              ime: data.ime,
-              prezime: data.prezime,
+              naziv: data.email,
             });
           });
         });
-    },
-    components: {
-      UnosCard,
     },
   },
 };
