@@ -7,7 +7,6 @@
         <div class="col-sm">
           <form @submit.prevent="dodajNovost">
             <div class="form-group">
-              <label for="url">Url slike</label>
               <input
                 type="url"
                 v-model="url"
@@ -17,7 +16,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="naslov">Naslov</label>
               <input
                 type="text"
                 v-model="naslov"
@@ -28,13 +26,12 @@
             </div>
             <div class="form-group">
               <label for="tekstNovosti">Tekst novosti</label>
-              <input
-                type="text"
+              <textarea
                 v-model="tekstNovosti"
-                class="form-control"
-                id="tekstNovosti"
-                placeholder="Tekst novosti..."
-              />
+                name="textarea"
+                cols="40"
+                rows="5"
+              ></textarea>
             </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi
@@ -61,7 +58,7 @@ export default {
   },
   methods: {
     dodajNovost() {
-      db.collection("novost")
+      db.collection("novosti")
         .add({
           url: this.url,
           naslov: this.naslov,

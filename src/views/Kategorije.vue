@@ -22,9 +22,9 @@
           </table>
         </div>
         <div class="col-sm">
+          <h3>Unos kategorije</h3>
           <form @submit.prevent="dodajKategoriju">
             <div class="form-group">
-              <label for="naziv">Naziv</label>
               <input
                 type="text"
                 v-model="naziv"
@@ -34,7 +34,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="ulaznoGodiste">Ulazno godište</label>
               <input
                 type="number"
                 v-model="ulaznoGodiste"
@@ -44,7 +43,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="izlaznoGodiste">Izlazno godište</label>
               <input
                 type="number"
                 v-model="izlaznoGodiste"

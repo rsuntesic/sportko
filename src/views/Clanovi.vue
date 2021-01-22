@@ -25,9 +25,9 @@
           </table>
         </div>
         <div class="col-sm">
+          <h3>Unos članova</h3>
           <form @submit.prevent="dodajClana">
             <div class="form-group">
-              <label for="ime">Ime</label>
               <input
                 type="text"
                 v-model="ime"
@@ -37,7 +37,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="prezime">Prezime</label>
               <input
                 type="text"
                 v-model="prezime"
@@ -47,10 +46,9 @@
               />
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email adresa</label>
               <input
                 type="email"
-                v-model="emailKorisnika"
+                v-model="email"
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
@@ -58,7 +56,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="godiste">Godište</label>
               <input
                 type="number"
                 v-model="godiste"
@@ -68,7 +65,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="telefon">Telefon</label>
               <input
                 type="number"
                 v-model="telefon"
@@ -78,7 +74,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="adresa">Adresa</label>
               <input
                 type="text"
                 v-model="adresa"
@@ -129,7 +124,7 @@ export default {
       trener: store.currentUser,
       ime: "",
       prezime: "",
-      emailKorisnika: "",
+      email: "",
       godiste: "",
       telefon: "",
       adresa: "",
@@ -143,7 +138,7 @@ export default {
         .add({
           ime: this.ime,
           prezime: this.prezime,
-          email: this.emailKorisnika,
+          email: this.email,
           godiste: this.godiste,
           telefon: this.telefon,
           adresa: this.adresa,
@@ -155,7 +150,7 @@ export default {
           console.log("Spremljeno");
           this.ime = "";
           this.prezime = "";
-          this.emailKorisnika = "";
+          this.email = "";
           this.godiste = "";
           this.telefon = "";
           this.adresa = "";

@@ -1,6 +1,5 @@
 <template>
-  <div class="clanovi">
-    <!-- <h1>Treneri</h1>  -->
+  <div class="treneri">
     <div class="container.fluid">
       <div class="row">
         <div class="col-1"></div>
@@ -24,11 +23,10 @@
             />
           </table>
         </div>
-
         <div class="col-sm">
+          <h3>Unos trenera</h3>
           <form @submit.prevent="dodajTrenera">
             <div class="form-group">
-              <label for="ime">Ime</label>
               <input
                 type="text"
                 v-model="ime"
@@ -38,7 +36,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="prezime">Prezime</label>
               <input
                 type="text"
                 v-model="prezime"
@@ -48,10 +45,9 @@
               />
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email adresa</label>
               <input
                 type="email"
-                v-model="emailTrenera"
+                v-model="email"
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
@@ -60,16 +56,22 @@
             </div>
             <div class="form-group">
               <label for="licenca">Licenca</label>
-              <input
+              <select
+                class="form-control"
+                id="mjesecLista"
                 type="text"
                 v-model="licenca"
-                class="form-control"
-                id="licenca"
-                placeholder="Licenca"
-              />
+              >
+                <option>Kontinentalna Pro</option>
+                <option>Kontinentalna A</option>
+                <option>Kontinentalna B</option>
+                <option>Kontinentalna C</option>
+                <option>Nacionalna A</option>
+                <option>Nacionalna B</option>
+                <option>Nacionalna C</option>
+              </select>
             </div>
             <div class="form-group">
-              <label for="telefon">Telefon</label>
               <input
                 type="number"
                 v-model="telefon"
@@ -79,7 +81,6 @@
               />
             </div>
             <div class="form-group">
-              <label for="adresa">Adresa</label>
               <input
                 type="text"
                 v-model="adresa"
@@ -114,7 +115,7 @@ export default {
       korisnik: store.currentUser,
       ime: "",
       prezime: "",
-      emailTrenera: "",
+      email: "",
       licenca: "",
       telefon: "",
       adresa: "",
@@ -129,17 +130,17 @@ export default {
           korisnik: this.korisnik,
           ime: this.ime,
           prezime: this.prezime,
-          email: this.emailTrenera,
+          email: this.email,
           licenca: this.licenca,
           telefon: this.telefon,
           adresa: this.adresa,
           dodano_u: Date.now(),
         })
         .then(() => {
-          console.log("Spremljeno");
+          alert("Podatak je unesen u bazu!!!");
           this.ime = "";
           this.prezime = "";
-          this.emailTrenera = "";
+          this.email = "";
           this.licenca = "";
           this.telefon = "";
           this.adresa = "";

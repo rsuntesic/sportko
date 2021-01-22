@@ -22,7 +22,17 @@
           </table>
         </div>
         <div class="col-sm">
+          <h3>Unos članova</h3>
           <form @submit.prevent="dodajClanarinu">
+            <div class="form-group">
+              <input
+                type="number"
+                v-model="cijena"
+                class="form-control"
+                id="cijena"
+                placeholder="Cijena"
+              />
+            </div>
             <div class="form-group">
               <label for="mjesecLista">Mjesec</label>
               <select
@@ -66,16 +76,6 @@
                   :info="padajuci"
                 />
               </select>
-            </div>
-            <div class="form-group">
-              <label for="cijena">Cijena</label>
-              <input
-                type="number"
-                v-model="cijena"
-                class="form-control"
-                id="cijena"
-                placeholder="Cijena"
-              />
             </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi

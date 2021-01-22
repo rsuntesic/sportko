@@ -35,7 +35,7 @@ export default {
     getPosts() {
       console.log("Firebase dohvat");
 
-      db.collection("novost")
+      db.collection("novosti")
         .orderBy("dodano_u", "desc")
         .limit(10)
         .get()
@@ -59,7 +59,10 @@ export default {
 
       //PROBLEM VELIKA SLOVA------------------------------------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       //funkcijska metoda filter
-      return this.novosti.filter((novost) => novost.naslov.includes(termin));
+      return this.novosti.filter(
+        (novost) =>
+          novost.naslov.includes(termin) || novost.opis.includes(termin)
+      );
 
       /* for (let novost of this.novosti) {
         if (novost.naslov.indexOf(termin) >= 0) {

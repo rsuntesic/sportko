@@ -8,12 +8,21 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
     meta: {
-      needsUser: true
+      needsUser: false
     }
   },
+  {
+    path: '/home',
+    name: 'Home',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')
+  },
+  
   {
     path: '/login',
     name: 'Login',
@@ -95,7 +104,7 @@ const noUser = store.currentUser == null;
 
 if(noUser && to.meta.needsUser){
 
-  next('Login');
+  next('Home');
 
 }else{
 

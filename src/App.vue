@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar navbar-expand-lg navbar-light">
+    <nav id="nav" class="navbar navbar-expand-sm navbar-light">
       <!-- Image and text -->
-      <a class="navbar-brand" href="/">
+
+      <router-link to="/home">
         <img
           src="@/assets/logo.png"
           height="100"
@@ -10,7 +11,7 @@
           alt=""
           loading="lazy"
         />
-      </a>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -22,51 +23,48 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarToggler">
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <router-link to="/" v-if="store.currentUser"
-              >Naslovnica
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/ZapisnikTrening"
+            <router-link
+              class="nav-link"
+              v-if="store.currentUser"
+              to="/ZapisnikTrening"
               >Trening
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/Clanarine"
+            <router-link
+              class="nav-link"
+              v-if="store.currentUser"
+              to="/Clanarine"
               >Članrine
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/Clanovi"
+            <router-link class="nav-link" v-if="store.currentUser" to="/Clanovi"
               >Članovi
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/Treneri"
+            <router-link class="nav-link" v-if="store.currentUser" to="/Treneri"
               >Treneri
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/Kategorije"
+            <router-link
+              class="nav-link"
+              v-if="store.currentUser"
+              to="/Kategorije"
               >Kategorija
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="store.currentUser" to="/KreirajNovost"
+            <router-link
+              class="nav-link"
+              v-if="store.currentUser"
+              to="/KreirajNovost"
               >Kreiraj novost
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link v-if="!store.currentUser" to="/Login"
-              >Login
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link v-if="!store.currentUser" to="/signUp"
-              >Sign up
             </router-link>
           </li>
         </ul>
@@ -79,6 +77,12 @@
             aria-label="Search"
           />
         </form>
+        <router-link class="nav-link" v-if="!store.currentUser" to="/Login"
+          >Login
+        </router-link>
+        <router-link class="nav-link" v-if="!store.currentUser" to="/signUp"
+          >Sign up
+        </router-link>
         <a
           href="#"
           v-if="store.currentUser"
