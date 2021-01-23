@@ -22,6 +22,13 @@
               :key="clanovi.id"
               :info="clanovi"
             />
+            <button
+              v-on:click="getPosts1"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Osvježi
+            </button>
           </table>
         </div>
         <div class="col-sm">
@@ -133,6 +140,33 @@ export default {
     };
   },
   methods: {
+    getPosts1() {
+      db.collection("clanovi")
+        .orderBy("ime", "asc")
+        .limit(50)
+        .get()
+        .then((query) => {
+          this.clanovi = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.clanovi.push({
+              id: doc.id,
+              ime: data.ime,
+              prezime: data.prezime,
+              email: data.email,
+              godiste: data.godiste,
+              telefon: data.telefon,
+              adresa: data.adresa,
+              kategorija: data.kategorija,
+              brojac: brojac,
+            });
+          });
+        });
+    },
+
     dodajClana() {
       db.collection("clanovi")
         .add({
