@@ -3,7 +3,7 @@
     <div class="container.fluid">
       <div class="row">
         <div class="col-1"></div>
-        <div class="col-sm">
+        <div id="osvjezi" class="col-sm">
           <table class="table">
             <thead>
               <tr>
@@ -13,7 +13,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Licenca</th>
                 <th scope="col">Telefon</th>
-                <th scope="col">Adresa</th>
+                <th scope="col">Obriši</th>
               </tr>
             </thead>
             <treneri-card
@@ -22,6 +22,9 @@
               :info="treneri"
             />
           </table>
+          <button v-on:click="getPosts1" type="submit" class="btn btn-primary">
+            Osvježi
+          </button>
         </div>
         <div class="col-sm">
           <h3>Unos trenera</h3>
@@ -80,15 +83,6 @@
                 placeholder="Telefon"
               />
             </div>
-            <div class="form-group">
-              <input
-                type="text"
-                v-model="adresa"
-                class="form-control"
-                id="adresa"
-                placeholder="Adresa"
-              />
-            </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi
             </button>
@@ -103,6 +97,7 @@
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
+import router from "@/router";
 import TreneriCard from "@/components/TreneriCard.vue";
 
 let brojac = 0;
@@ -113,53 +108,48 @@ export default {
     return {
       treneri: [],
       korisnik: store.currentUser,
-      ime: "",
-      prezime: "",
-      email: "",
-      licenca: "",
-      telefon: "",
-      adresa: "",
+      ime: null,
+      prezime: null,
+      email: null,
+      licenca: null,
+      telefon: null,
+      adresa: null,
       brojac,
     };
   },
 
   methods: {
     dodajTrenera() {
-      db.collection("treneri")
-        .add({
-          korisnik: this.korisnik,
-          ime: this.ime,
-          prezime: this.prezime,
-          email: this.email,
-          licenca: this.licenca,
-          telefon: this.telefon,
-          adresa: this.adresa,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          alert("Podatak je unesen u bazu!!!");
-          this.ime = "";
-          this.prezime = "";
-          this.email = "";
-          this.licenca = "";
-          this.telefon = "";
-          this.adresa = "";
-        })
-        .catch(function(e) {
-          console.error(e);
-        });
+      if (this.telefon.length == 9 || this.telefon.length == 10) {
+        db.collection("treneri")
+          .add({
+            korisnik: this.korisnik,
+            ime: this.ime,
+            prezime: this.prezime,
+            email: this.email,
+            licenca: this.licenca,
+            telefon: this.telefon,
+            dodano_u: Date.now(),
+          })
+          .then(() => {
+            alert("Podatak je unesen u bazu!!!");
+            this.ime = null;
+            this.prezime = null;
+            this.email = null;
+            this.licenca = null;
+            this.telefon = null;
+          })
+          .catch(function(e) {
+            console.error(e);
+          });
+      } else {
+        alert("Telefon mora imati minimalno 9, a maksimalno 10 znamenki.");
+      }
     },
-  },
-
-  mounted() {
-    //dohvat iz Firebasea
-    this.getPosts;
-  },
-  computed: {
-    getPosts() {
+    getPosts1() {
       db.collection("treneri")
         .orderBy("ime", "asc")
-        .limit(10)
+        .limit(50)
         .get()
         .then((query) => {
           this.treneri = [];
@@ -175,7 +165,37 @@ export default {
               licenca: data.licenca,
               telefon: data.telefon,
               email: data.email,
-              adresa: data.adresa,
+              brojac: brojac,
+            });
+          });
+        });
+    },
+  },
+
+  mounted() {
+    //dohvat iz Firebasea
+    this.getPosts;
+  },
+  computed: {
+    getPosts() {
+      db.collection("treneri")
+        .orderBy("ime", "asc")
+        .limit(50)
+        .get()
+        .then((query) => {
+          this.treneri = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.treneri.push({
+              id: doc.id,
+              ime: data.ime,
+              prezime: data.prezime,
+              licenca: data.licenca,
+              telefon: data.telefon,
+              email: data.email,
               brojac: brojac,
             });
           });
