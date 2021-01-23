@@ -19,6 +19,13 @@
               :key="kategorije.id"
               :info="kategorije"
             />
+            <button
+              v-on:click="getPosts1"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Osvježi
+            </button>
           </table>
         </div>
         <div class="col-sm">
@@ -95,9 +102,33 @@ export default {
       ulaznoGodiste: "",
       izlaznoGodiste: "",
       trener: "",
+      brojac,
     };
   },
   methods: {
+    getPosts1() {
+      db.collection("kategorije")
+        .orderBy("naziv", "asc")
+        .limit(50)
+        .get()
+        .then((query) => {
+          this.kategorije = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.kategorije.push({
+              id: doc.id,
+              naziv: data.naziv,
+              ulaznoGodiste: data.ulaznoGodiste,
+              izlaznoGodiste: data.izlaznoGodiste,
+              trener: data.trener,
+              brojac,
+            });
+          });
+        });
+    },
     dodajKategoriju() {
       db.collection("kategorije")
         .add({
