@@ -19,14 +19,10 @@
               :key="kategorije.id"
               :info="kategorije"
             />
-            <button
-              v-on:click="getPosts1"
-              type="submit"
-              class="btn btn-primary"
-            >
-              Osvježi
-            </button>
           </table>
+          <button v-on:click="getPosts1" type="submit" class="btn btn-primary">
+            Osvježi
+          </button>
         </div>
         <div class="col-sm">
           <h3>Unos kategorije</h3>

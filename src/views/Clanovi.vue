@@ -22,14 +22,10 @@
               :key="clanovi.id"
               :info="clanovi"
             />
-            <button
-              v-on:click="getPosts1"
-              type="submit"
-              class="btn btn-primary"
-            >
-              Osvježi
-            </button>
           </table>
+          <button v-on:click="getPosts1" type="submit" class="btn btn-primary">
+            Osvježi
+          </button>
         </div>
         <div class="col-sm">
           <h3>Unos članova</h3>
