@@ -38,7 +38,7 @@
               class="nav-link"
               v-if="store.currentUser"
               to="/Clanarine"
-              >Članrine
+              >Članarine
             </router-link>
           </li>
           <li class="nav-item">

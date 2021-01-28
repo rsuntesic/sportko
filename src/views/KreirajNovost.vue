@@ -7,13 +7,12 @@
         <div class="col-sm">
           <form @submit.prevent="dodajNovost">
             <div class="form-group">
-              <input
-                type="url"
+              <croppa
+                :width="400"
+                :height="400"
+                placeholder="Ucitaj Sliku"
                 v-model="url"
-                class="form-control"
-                id="urlSlike"
-                placeholder="Link na sliku"
-              />
+              ></croppa>
             </div>
             <div class="form-group">
               <input
@@ -44,37 +43,62 @@
   </div>
 </template>
 <script>
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import store from "@/store";
+
 export default {
   name: "Novosti",
   data() {
     return {
       korisnik: store.currentUser,
-      url: "",
+      url: null,
       naslov: "",
       tekstNovosti: "",
     };
   },
   methods: {
     dodajNovost() {
-      db.collection("novosti")
-        .add({
-          url: this.url,
-          naslov: this.naslov,
-          tekstNovosti: this.tekstNovosti,
-          korisnik: this.korisnik,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          console.log("Spremljeno");
-          this.url = "";
-          this.naslov = "";
-          this.tekstNovosti = "";
-        })
-        .catch(function(e) {
-          console.error(e);
-        });
+      this.url.generateBlob((blobData) => {
+        console.log(blobData);
+        let imageName = store.currentUser + "/" + Date.now() + ".png";
+
+        storage
+          .ref(imageName)
+          .put(blobData)
+          .then((result) => {
+            //arrow funckija čuva this
+            //uspješna linija
+            result.ref
+              .getDownloadURL()
+              .then((url) => {
+                //arrow funckija čuva this
+                console.log("Javni link", url);
+                db.collection("novosti")
+                  .add({
+                    url: this.url,
+                    naslov: this.naslov,
+                    tekstNovosti: this.tekstNovosti,
+                    korisnik: this.korisnik,
+                    dodano_u: Date.now(),
+                  })
+                  .then((doc) => {
+                    console.log("Spremljeno", doc);
+                    this.url = "";
+                    this.naslov = "";
+                    this.tekstNovosti = "";
+                  })
+                  .catch((e) => {
+                    console.error(e);
+                  });
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      });
     },
   },
 };

@@ -20,6 +20,9 @@
               :info="clanarine"
             />
           </table>
+          <button v-on:click="getPosts1" type="submit" class="btn btn-primary">
+            Osvježi
+          </button>
         </div>
         <div class="col-sm">
           <h3>Unos članova</h3>
@@ -110,6 +113,29 @@ export default {
     };
   },
   methods: {
+    getPosts1() {
+      db.collection("clanarine")
+        .orderBy("mjesec", "asc")
+        .limit(50)
+        .get()
+        .then((query) => {
+          this.clanarine = [];
+          brojac = 0;
+          query.forEach((doc) => {
+            const data = doc.data();
+            brojac++;
+
+            this.clanarine.push({
+              id: doc.id,
+              mjesec: data.mjesec,
+              podmireno: data.podmireno,
+              clan: data.clan,
+              cijena: data.cijena,
+              brojac: brojac,
+            });
+          });
+        });
+    },
     dodajClanarinu() {
       db.collection("clanarine")
         .add({
@@ -155,6 +181,7 @@ export default {
           });
         });
     },
+
     getPosts() {
       db.collection("clanarine")
         .orderBy("mjesec", "asc")
