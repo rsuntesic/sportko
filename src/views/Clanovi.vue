@@ -7,6 +7,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th scope="col">Ažuriraj</th>
                 <th scope="col">#</th>
                 <th scope="col">Ime</th>
                 <th scope="col">Prezime</th>
@@ -15,6 +16,7 @@
                 <th scope="col">Telefon</th>
                 <th scope="col">Adresa</th>
                 <th scope="col">Kategorija</th>
+                <th scope="col">Obriši</th>
               </tr>
             </thead>
             <clanovi-card

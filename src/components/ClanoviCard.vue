@@ -1,6 +1,9 @@
 <template>
   <tbody>
     <tr>
+      <button v-on:click="azurirajClana" type="submit" class="btn btn-primary">
+        +
+      </button>
       <th scope="row">{{ info.brojac }}</th>
       <td>{{ info.ime }}</td>
       <td>{{ info.prezime }}</td>
