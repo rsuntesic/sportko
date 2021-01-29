@@ -29,6 +29,14 @@
             <router-link
               class="nav-link"
               v-if="store.currentUser"
+              to="/ZapisnikUtakmica"
+              >Utakmica
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              v-if="store.currentUser"
               to="/ZapisnikTrening"
               >Trening
             </router-link>
