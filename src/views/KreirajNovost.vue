@@ -57,48 +57,47 @@ export default {
     };
   },
   methods: {
-    dodajNovost() {
-      this.url.generateBlob((blobData) => {
-        console.log(blobData);
-        let imageName = store.currentUser + "/" + Date.now() + ".png";
+    getImage() {
+      //Promise based omotač oko callbacka
 
-        storage
-          .ref(imageName)
-          .put(blobData)
-          .then((result) => {
-            //arrow funckija čuva this
-            //uspješna linija
-            result.ref
-              .getDownloadURL()
-              .then((url) => {
-                //arrow funckija čuva this
-                console.log("Javni link", url);
-                db.collection("novosti")
-                  .add({
-                    url: this.url,
-                    naslov: this.naslov,
-                    tekstNovosti: this.tekstNovosti,
-                    korisnik: this.korisnik,
-                    dodano_u: Date.now(),
-                  })
-                  .then((doc) => {
-                    console.log("Spremljeno", doc);
-                    this.url = "";
-                    this.naslov = "";
-                    this.tekstNovosti = "";
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                  });
-              })
-              .catch((e) => {
-                console.error(e);
-              });
-          })
-          .catch((e) => {
-            console.error(e);
-          });
+      return new Promise((resolveFn, errorFn) => {
+        this.url.generateBlob((data) => {
+          resolveFn(data);
+        });
       });
+    },
+    dodajNovost() {
+      this.getImage()
+        .then((data) => {
+          let imageName = store.currentUser + "/" + Date.now() + ".png";
+          return storage.ref(imageName).put(data);
+        })
+
+        .then((result) => {
+          //arrow funckija čuva this
+          //uspješna linija
+          return result.ref.getDownloadURL();
+        })
+        .then((url) => {
+          //arrow funckija čuva this
+          console.log("Javni link", url);
+          return db.collection("novosti").add({
+            url: url,
+            naslov: this.naslov,
+            tekstNovosti: this.tekstNovosti,
+            korisnik: this.korisnik,
+            dodano_u: Date.now(),
+          });
+        })
+        .then((doc) => {
+          alert("Novost je spremljena.");
+          this.url.remove();
+          this.naslov = "";
+          this.tekstNovosti = "";
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     },
   },
 };
