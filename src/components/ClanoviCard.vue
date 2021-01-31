@@ -1,9 +1,20 @@
 <template>
   <tbody>
     <tr>
-      <button v-on:click="azurirajClana" type="submit" class="btn btn-primary">
-        +
-      </button>
+      <th scope="row">
+        <button
+          v-on:click="azurirajClana"
+          type="submit"
+          class="btn btn-primary"
+        >
+          A
+        </button>
+      </th>
+      <th scope="row">
+        <button v-on:click="izmjeniClana" type="submit" class="btn btn-primary">
+          >
+        </button>
+      </th>
       <th scope="row">{{ info.brojac }}</th>
       <td>{{ info.ime }}</td>
       <td>{{ info.prezime }}</td>
@@ -12,9 +23,11 @@
       <td>{{ info.telefon }}</td>
       <td>{{ info.adresa }}</td>
       <td>{{ info.kategorija }}</td>
-      <button v-on:click="obrisiClana" type="submit" class="btn btn-primary">
-        x
-      </button>
+      <th scope="row">
+        <button v-on:click="obrisiClana" type="submit" class="btn btn-primary">
+          x
+        </button>
+      </th>
     </tr>
   </tbody>
 </template>
@@ -26,9 +39,61 @@ export default {
   data() {
     return {
       id: "",
+      ime: "",
+      prezime: "",
+      email: "",
+      godiste: "",
+      telefon: "",
+      adresa: "",
+      kategorija: "",
     };
   },
   methods: {
+    azurirajClana() {
+      let n = confirm("Želite li uistinu ažurirati taj podatak");
+      if (n == true) {
+        db.collection("clanovi")
+          .doc(this.info.id)
+          .update({
+            ime: this.info.ime,
+            prezime: this.info.prezime,
+            email: this.info.email,
+            godiste: this.info.godiste,
+            telefon: this.info.telefon,
+            adresa: this.info.adresa,
+            kategorija: this.info.kategorija,
+          })
+          .then(function() {
+            alert("Podatak je uspješno ažuriran.");
+          })
+          .catch(function(error) {
+            alert("Greška kod ažuriranja: ", error);
+          });
+      } else {
+        alert("Niste ažurirali podatke!");
+      }
+    },
+    izmjeniClana() {
+      let n = confirm("Želite li uistinu izmjeniti podatke u ovom redu?");
+
+      if (n == true) {
+        this.info.ime = prompt("Unesite ime člana", this.info.ime);
+        this.info.prezime = prompt(
+          "Unesite prezimeime člana",
+          this.info.prezime
+        );
+        this.info.email = prompt("Unesite email člana", this.info.email);
+        this.info.godiste = prompt("Unesite godiste člana", this.info.godiste);
+        this.info.telefon = prompt("Unesite telefon člana", this.info.telefon);
+        this.info.adresa = prompt("Unesite adresu člana", this.info.adresa);
+        this.info.kategorija = prompt(
+          "Unesite kategoriju člana",
+          this.info.kategorija
+        );
+      } else {
+        alert("Odustali ste od izmjene!!!");
+      }
+    },
     obrisiClana() {
       let n = confirm("Želite li uistinu obrisati taj podatak");
       console.log("obrisi");

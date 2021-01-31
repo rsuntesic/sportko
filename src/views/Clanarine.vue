@@ -25,7 +25,7 @@
           </button>
         </div>
         <div class="col-sm">
-          <h3>Unos članova</h3>
+          <h3>Unos članarine</h3>
           <form @submit.prevent="dodajClanarinu">
             <div class="form-group">
               <input
