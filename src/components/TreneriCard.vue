@@ -1,6 +1,20 @@
 <template>
   <tbody>
     <tr>
+      <th scope="row">
+        <button
+          v-on:click="azurirajTrenera"
+          type="submit"
+          class="btn btn-primary"
+        >
+          A
+        </button>
+      </th>
+      <th scope="row">
+        <button v-on:click="izmjeniTrenera" type="submit" class="btn btn-primary">
+          >
+        </button>
+      </th>
       <th scope="row">{{ info.brojac }}</th>
       <td>{{ info.ime }}</td>
       <td>{{ info.prezime }}</td>
@@ -9,13 +23,11 @@
       <td>{{ info.telefon }}</td>
       <td>{{ info.adresa }}</td>
       <td>
-        <button
-          v-on:click="obrisiTrenera"
-          type="submit"
-          class="btn btn-primary"
-        >
+       <th scope="row">
+        <button v-on:click="obrisiTrenera" type="submit" class="btn btn-primary">
           x
         </button>
+       </th>
       </td>
     </tr>
   </tbody>
@@ -28,9 +40,56 @@ export default {
   data() {
     return {
       id: "",
+       ime: null,
+       prezime: null,
+       email: null,
+       licenca: null,
+       telefon: null,
+       adresa: null,
     };
   },
   methods: {
+     azurirajTrenera() {
+      let n = confirm("Želite li uistinu ažurirati taj podatak");
+      if (n == true) {
+        db.collection("treneri")
+          .doc(this.info.id)
+          .update({
+           
+            ime: this.info.ime,
+            prezime: this.info.prezime,
+            email: this.info.email,
+            telefon: this.info.telefon,
+            adresa: this.info.adresa,
+            licenca: this.info.licenca,
+          })
+          .then(function() {
+            alert("Podatak je uspješno ažuriran.");
+          })
+          .catch(function(error) {
+            alert("Greška kod ažuriranja: ", error);
+          });
+      } else {
+        alert("Niste ažurirali podatke!");
+      }
+    },
+    izmjeniTrenera() {
+      let n = confirm("Želite li uistinu izmjeniti podatke u ovom redu?");
+
+      if (n == true) {
+        this.info.ime = prompt("Unesite ime trenera", this.info.ime);
+        this.info.prezime = prompt("Unesite prezime trenera", this.info.prezime);
+        this.info.email = prompt("Unesite email trenera", this.info.email);
+        this.info.telefon = prompt("Unesite telefon trenera", this.info.telefon);
+        this.info.adresa = prompt("Unesite adresu trenera", this.info.adresa);
+        this.info.licenca = prompt(
+          "Unesite kategoriju trenera",
+          this.info.licenca
+        );
+      } else {
+        alert("Odustali ste od izmjene!!!");
+      }
+    },
     obrisiTrenera() {
       let n = confirm("Želite li uistinu obrisati taj podatak");
       console.log("obrisi");
@@ -49,5 +108,6 @@ export default {
       }
     },
   },
+  
 };
 </script>
