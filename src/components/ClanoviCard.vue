@@ -78,10 +78,7 @@ export default {
 
       if (n == true) {
         this.info.ime = prompt("Unesite ime člana", this.info.ime);
-        this.info.prezime = prompt(
-          "Unesite prezimeime člana",
-          this.info.prezime
-        );
+        this.info.prezime = prompt("Unesite prezime člana", this.info.prezime);
         this.info.email = prompt("Unesite email člana", this.info.email);
         this.info.godiste = prompt("Unesite godiste člana", this.info.godiste);
         this.info.telefon = prompt("Unesite telefon člana", this.info.telefon);
