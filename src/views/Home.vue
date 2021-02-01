@@ -1,16 +1,17 @@
 <template>
   <div class="row">
-    <div class="col-2"></div>
-    <div class="col-7">
+    <div class="col-1"></div>
+    <div class="col-5">
       <novosti-card
         v-for="novost in filterdNovosti"
         :key="novost.id"
         :info="novost"
       />
     </div>
-    <div class="col-3">
+    <div class="col-5">
       Sidebar
     </div>
+    <div class="col-1"></div>
   </div>
 </template>
 
