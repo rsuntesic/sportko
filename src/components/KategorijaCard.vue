@@ -7,15 +7,6 @@
           type="submit"
           class="btn btn-primary"
         >
-          A
-        </button>
-      </th>
-      <th scope="row">
-        <button
-          v-on:click="izmjeniKategorije"
-          type="submit"
-          class="btn btn-primary"
-        >
           >
         </button>
       </th>
@@ -51,9 +42,22 @@ export default {
     };
   },
   methods: {
+    izmjeniKategorije() {
+      this.info.naziv = prompt("Unesite naziv kategorije", this.info.naziv);
+      this.info.ulaznoGodiste = prompt(
+        "Unesite ulazno Godiste kategorije",
+        this.info.ulaznoGodiste
+      );
+      this.info.izlaznoGodiste = prompt(
+        "Unesite izlazno Godiste kategorije",
+        this.info.izlaznoGodiste
+      );
+      this.info.trener = prompt("Unesite trenera kategorije", this.info.trener);
+    },
     azurirajKategorije() {
       let n = confirm("Želite li uistinu ažurirati taj podatak");
       if (n == true) {
+        this.izmjeniKategorije();
         db.collection("kategorije")
           .doc(this.info.id)
           .update({
@@ -72,27 +76,7 @@ export default {
         alert("Niste ažurirali podatke!");
       }
     },
-    izmjeniKategorije() {
-      let n = confirm("Želite li uistinu izmjeniti podatke u ovom redu?");
 
-      if (n == true) {
-        this.info.naziv = prompt("Unesite naziv kategorije", this.info.naziv);
-        this.info.ulaznoGodiste = prompt(
-          "Unesite ulazno Godiste kategorije",
-          this.info.ulaznoGodiste
-        );
-        this.info.izlaznoGodiste = prompt(
-          "Unesite izlazno Godiste kategorije",
-          this.info.izlaznoGodiste
-        );
-        this.info.trener = prompt(
-          "Unesite trenera kategorije",
-          this.info.trener
-        );
-      } else {
-        alert("Odustali ste od izmjene!!!");
-      }
-    },
     obrisiKategoriju() {
       let n = confirm("Želite li uistinu obrisati taj podatak");
       console.log("obrisi");

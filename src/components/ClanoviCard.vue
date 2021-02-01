@@ -7,11 +7,6 @@
           type="submit"
           class="btn btn-primary"
         >
-          A
-        </button>
-      </th>
-      <th scope="row">
-        <button v-on:click="izmjeniClana" type="submit" class="btn btn-primary">
           >
         </button>
       </th>
@@ -49,9 +44,22 @@ export default {
     };
   },
   methods: {
+    izmjeniClana() {
+      this.info.ime = prompt("Unesite ime člana", this.info.ime);
+      this.info.prezime = prompt("Unesite prezime člana", this.info.prezime);
+      this.info.email = prompt("Unesite email člana", this.info.email);
+      this.info.godiste = prompt("Unesite godiste člana", this.info.godiste);
+      this.info.telefon = prompt("Unesite telefon člana", this.info.telefon);
+      this.info.adresa = prompt("Unesite adresu člana", this.info.adresa);
+      this.info.kategorija = prompt(
+        "Unesite kategoriju člana",
+        this.info.kategorija
+      );
+    },
     azurirajClana() {
       let n = confirm("Želite li uistinu ažurirati taj podatak");
       if (n == true) {
+        this.izmjeniClana();
         db.collection("clanovi")
           .doc(this.info.id)
           .update({
@@ -73,24 +81,7 @@ export default {
         alert("Niste ažurirali podatke!");
       }
     },
-    izmjeniClana() {
-      let n = confirm("Želite li uistinu izmjeniti podatke u ovom redu?");
 
-      if (n == true) {
-        this.info.ime = prompt("Unesite ime člana", this.info.ime);
-        this.info.prezime = prompt("Unesite prezime člana", this.info.prezime);
-        this.info.email = prompt("Unesite email člana", this.info.email);
-        this.info.godiste = prompt("Unesite godiste člana", this.info.godiste);
-        this.info.telefon = prompt("Unesite telefon člana", this.info.telefon);
-        this.info.adresa = prompt("Unesite adresu člana", this.info.adresa);
-        this.info.kategorija = prompt(
-          "Unesite kategoriju člana",
-          this.info.kategorija
-        );
-      } else {
-        alert("Odustali ste od izmjene!!!");
-      }
-    },
     obrisiClana() {
       let n = confirm("Želite li uistinu obrisati taj podatak");
       console.log("obrisi");

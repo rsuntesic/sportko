@@ -7,8 +7,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Ažuriraj u bazi</th>
-                <th scope="col">Izmjeni podatke</th>
+                <th scope="col">Ažuriraj</th>
                 <th scope="col">#</th>
                 <th scope="col">Naziv</th>
                 <th scope="col">Ulazno godište</th>

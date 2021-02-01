@@ -7,14 +7,14 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Ažuriraj u bazi</th>
-                <th scope="col">Izmjeni podatke</th>
+                <th scope="col">Ažuriraj</th>
                 <th scope="col">#</th>
                 <th scope="col">Ime</th>
                 <th scope="col">Prezime</th>
                 <th scope="col">Email</th>
                 <th scope="col">Licenca</th>
                 <th scope="col">Telefon</th>
+                <th scope="col">Adresa</th>
                 <th scope="col">Obriši</th>
               </tr>
             </thead>
@@ -85,6 +85,15 @@
                 placeholder="Telefon"
               />
             </div>
+            <div class="form-group">
+              <input
+                type="text"
+                v-model="adresa"
+                class="form-control"
+                id="telefon"
+                placeholder="Adresa"
+              />
+            </div>
             <button type="submit" class="btn btn-primary">
               Potvrdi
             </button>
@@ -131,6 +140,7 @@ export default {
             email: this.email,
             licenca: this.licenca,
             telefon: this.telefon,
+            adresa: this.adresa,
             dodano_u: Date.now(),
           })
           .then(() => {
@@ -140,6 +150,7 @@ export default {
             this.email = null;
             this.licenca = null;
             this.telefon = null;
+            this.adresa = null;
           })
           .catch(function(e) {
             console.error(e);
@@ -167,6 +178,7 @@ export default {
               licenca: data.licenca,
               telefon: data.telefon,
               email: data.email,
+              adresa: data.adresa,
               brojac: brojac,
             });
           });
@@ -198,6 +210,7 @@ export default {
               licenca: data.licenca,
               telefon: data.telefon,
               email: data.email,
+              adresa: data.adresa,
               brojac: brojac,
             });
           });
