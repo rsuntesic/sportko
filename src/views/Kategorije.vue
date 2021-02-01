@@ -13,6 +13,7 @@
                 <th scope="col">Ulazno godište</th>
                 <th scope="col">Izlazno godište</th>
                 <th scope="col">Trener</th>
+                <th scope="col">Obriši</th>
               </tr>
             </thead>
             <kategorija-card

@@ -7,15 +7,6 @@
           type="submit"
           class="btn btn-primary"
         >
-          A
-        </button>
-      </th>
-      <th scope="row">
-        <button
-          v-on:click="izmjeniClanarine"
-          type="submit"
-          class="btn btn-primary"
-        >
           >
         </button>
       </th>
@@ -51,9 +42,19 @@ export default {
     };
   },
   methods: {
+    izmjeniClanarine() {
+      this.info.mjesec = prompt("Unesite mjesec članarine", this.info.mjesec);
+      this.info.podmireno = prompt(
+        "Unesite podmireno članarine",
+        this.info.podmireno
+      );
+      this.info.cijena = prompt("Unesite cijena članarina", this.info.cijena);
+      this.info.clan = prompt("Unesite člana", this.info.clan);
+    },
     azurirajClanarine() {
       let n = confirm("Želite li uistinu ažurirati taj podatak");
       if (n == true) {
+        this.izmjeniClanarine();
         db.collection("clanarine")
           .doc(this.info.id)
           .update({
@@ -72,21 +73,7 @@ export default {
         alert("Niste ažurirali podatke!");
       }
     },
-    izmjeniClanarine() {
-      let n = confirm("Želite li uistinu izmjeniti podatke u ovom redu?");
 
-      if (n == true) {
-        this.info.mjesec = prompt("Unesite mjesec članarine", this.info.mjesec);
-        this.info.podmireno = prompt(
-          "Unesite podmireno članarine",
-          this.info.podmireno
-        );
-        this.info.clan = prompt("Unesite člana", this.info.clan);
-        this.info.cijena = prompt("Unesite cijena članarina", this.info.cijena);
-      } else {
-        alert("Odustali ste od izmjene!!!");
-      }
-    },
     obrisiClanarine() {
       let n = confirm("Želite li uistinu obrisati taj podatak");
       console.log("obrisi");
