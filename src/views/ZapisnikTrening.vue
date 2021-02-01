@@ -27,41 +27,93 @@
       <h2>Popis igraca na treningu:</h2>
       <form @submit.prevent="dodajTrening">
         <div class="form-group">
-          <label for="clanovi">Clanovi</label>
-          <select
-            v-for="brojIgraca in brojIgraca"
-            :key="brojIgraca"
-            class="form-control"
-            id="igrac1"
-            type="text"
-            v-model="igrac"
-          >
-            <padajuci-card
-              v-for="padajuci in padajuci"
-              :key="padajuci.id"
-              :info="padajuci"
-            />
-          </select>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac1"
+              type="text"
+              v-model="igrac1"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac2"
+              type="text"
+              v-model="igrac2"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac3"
+              type="text"
+              v-model="igrac3"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac1"
+              type="text"
+              v-model="igrac4"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac2"
+              type="text"
+              v-model="igrac5"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac3"
+              type="text"
+              v-model="igrac6"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">
           Unesi podatke u bazu
-        </button>
-      </form>
-    </div>
-    <div class="col-sm">
-      <form @submit.prevent="brIgraca">
-        <div class="form-group">
-          <label for="brojIgraca">Broj igraca na utakmici</label>
-          <input
-            type="number"
-            v-model="brojac"
-            class="form-control"
-            id="brojIgraca"
-            placeholder="Broj igraca"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">
-          Potvrdi
         </button>
       </form>
     </div>
@@ -81,22 +133,26 @@ export default {
       korisnik: store.currentUser,
       padajuci: [],
       igraci: [],
+      igrac1: "",
+      igrac2: "",
+      igrac3: "",
+      igrac4: "",
+      igrac5: "",
+      igrac6: "",
       datum: "",
       vrijeme: "",
-      brojac: "",
-      brojIgraca: [],
     };
   },
   methods: {
-    brIgraca() {
-      let i = 0;
-      for (i; i < this.brojac; i++) {
-        this.brojIgraca.push({
-          br: this.igrac,
-        });
-      }
-    },
-    dodajTrenera() {
+    dodajTrening() {
+      this.igraci.push({
+        igrac1: this.igrac1,
+        igrac2: this.igrac2,
+        igrac3: this.igrac3,
+        igrac4: this.igrac4,
+        igrac5: this.igrac5,
+        igrac6: this.igrac6,
+      });
       db.collection("treninzi")
         .add({
           datum: this.datum,
@@ -107,15 +163,9 @@ export default {
         })
         .then(() => {
           alert("Podatak je unesen u bazu!!!");
-          this.ime = null;
-          this.prezime = null;
-          this.email = null;
-          this.licenca = null;
-          this.telefon = null;
-          this.adresa = null;
         })
         .catch(function(e) {
-          console.error(e);
+          alert(e);
         });
     },
   },
@@ -134,7 +184,7 @@ export default {
             const data = doc.data();
             this.padajuci.push({
               id: doc.id,
-              naziv: data.email,
+              naziv: data.ime + " " + data.prezime,
             });
           });
         });

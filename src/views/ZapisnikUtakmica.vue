@@ -1,48 +1,133 @@
 <template>
   <div class="row">
-    <div class="col-sm"></div>
+    <div class="col-1"></div>
+    <div class="col-sm">
+      <label for="Datumtreninga">Datum </label>
+      <div class="form-group">
+        <input
+          type="date"
+          v-model="datum"
+          class="form-control"
+          id="datum"
+          placeholder="datum"
+        />
+      </div>
+      <label for="Vrijemetreninga">Vrijeme </label>
+      <div class="form-group">
+        <input
+          type="time"
+          v-model="vrijeme"
+          class="form-control"
+          id="vrijeme"
+          placeholder="vrijeme"
+        />
+      </div>
+      <label for="momcadiRezultat">Momčadi i rezultat </label>
+      <div class="form-group">
+        <input
+          type="text"
+          v-model="momcadiRezultat"
+          class="form-control"
+          id="momcadiRezultat"
+          placeholder="momcadiRezultat"
+        />
+      </div>
+    </div>
     <div class="col-sm">
       <h2>Popis igraca na utakmici:</h2>
       <form @submit.prevent="dodajUtakmicu">
         <div class="form-group">
-          <label for="igraci">Igraci</label>
-          <select
-            v-for="brojIgraca in brojIgraca"
-            :key="brojIgraca"
-            class="form-control"
-            id="trener"
-            type="text"
-            v-model="trener"
-          >
-            <padajuci-card
-              v-for="padajuci in padajuci"
-              :key="padajuci.id"
-              :info="padajuci"
-            />
-          </select>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac1"
+              type="text"
+              v-model="igrac1"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac2"
+              type="text"
+              v-model="igrac2"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac3"
+              type="text"
+              v-model="igrac3"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac1"
+              type="text"
+              v-model="igrac4"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac2"
+              type="text"
+              v-model="igrac5"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              id="igrac3"
+              type="text"
+              v-model="igrac6"
+            >
+              <padajuci-card
+                v-for="padajuci in padajuci"
+                :key="padajuci.id"
+                :info="padajuci"
+              />
+            </select>
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">
-          Potvrdi
+          Unesi podatke u bazu
         </button>
       </form>
     </div>
-    <div class="col-sm">
-      <form @submit.prevent="brIgraca">
-        <div class="form-group">
-          <label for="brojIgraca">Broj igraca na utakmici</label>
-          <input
-            type="number"
-            v-model="brojac"
-            class="form-control"
-            id="brojIgraca"
-            placeholder="Broj igraca"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">
-          Potvrdi
-        </button>
-      </form>
-    </div>
+    <div class="col-1"></div>
   </div>
 </template>
 <script>
@@ -57,18 +142,43 @@ export default {
     return {
       korisnik: store.currentUser,
       padajuci: [],
-      brojac: "",
-      brojIgraca: [],
+      igraci: [],
+      igrac1: "",
+      igrac2: "",
+      igrac3: "",
+      igrac4: "",
+      igrac5: "",
+      igrac6: "",
+      datum: "",
+      vrijeme: "",
+      momcadiRezultat: "",
     };
   },
   methods: {
-    brIgraca() {
-      let i = 0;
-      for (i; i < this.brojac; i++) {
-        this.brojIgraca.push({
-          br: i,
+    dodajUtakmicu() {
+      this.igraci.push({
+        igrac1: this.igrac1,
+        igrac2: this.igrac2,
+        igrac3: this.igrac3,
+        igrac4: this.igrac4,
+        igrac5: this.igrac5,
+        igrac6: this.igrac6,
+      });
+      db.collection("utakmice")
+        .add({
+          datum: this.datum,
+          vrijeme: this.vrijeme,
+          igraci: this.igraci,
+          trener: this.korisnik,
+          momcadiRezultat: this.momcadiRezultat,
+          dodano_u: Date.now(),
+        })
+        .then(() => {
+          alert("Podatak je unesen u bazu!!!");
+        })
+        .catch(function(e) {
+          alert(e);
         });
-      }
     },
   },
   mounted() {
@@ -86,7 +196,7 @@ export default {
             const data = doc.data();
             this.padajuci.push({
               id: doc.id,
-              naziv: data.email,
+              naziv: data.ime + " " + data.prezime,
             });
           });
         });
