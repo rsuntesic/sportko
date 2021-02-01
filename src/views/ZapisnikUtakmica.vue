@@ -29,12 +29,12 @@
           v-model="momcadiRezultat"
           class="form-control"
           id="momcadiRezultat"
-          placeholder="momcadiRezultat"
+          placeholder="NK Dinamo 1:0 NK Hajduk"
         />
       </div>
     </div>
     <div class="col-sm">
-      <h2>Popis igraca na utakmici:</h2>
+      <h2>Popis igrača na utakmici:</h2>
       <form @submit.prevent="dodajUtakmicu">
         <div class="form-group">
           <div class="form-group">
@@ -134,7 +134,7 @@
 import { db } from "@/firebase";
 import store from "@/store";
 import PadajuciCard from "@/components/PadajuciCard.vue";
-let brojac = 0;
+
 export default {
   components: { PadajuciCard },
   name: "ZapisniUtakmica",
