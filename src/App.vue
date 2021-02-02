@@ -28,6 +28,14 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
+              v-if="store.currentUser"
+              to="/PodaciKorisnik"
+              >Podaci o korisniku
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
               v-if="store.trenerUser"
               to="/ZapisnikUtakmica"
               >Utakmica
