@@ -57,6 +57,7 @@ export default {
               momcadiRezultat: data.momcadiRezultat,
               datum: data.datum,
               vrijeme: data.vrijeme,
+              igraci: data.igraci,
               datumObjave: data.dodano_u,
             });
           });

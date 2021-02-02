@@ -11,20 +11,43 @@
           <th scope="col">Golovi</th>
         </tr>
       </thead>
-      <td>igrac</td>
-      <td>0</td>
+      <utakmica-igraci-card
+        v-for="igrac in igraci"
+        :key="igrac.igrac"
+        :info="igrac"
+      />
     </table>
   </div>
 </template>
 <script>
 import moment from "moment";
+import UtakmicaIgraciCard from "@/components/UtakmicaIgraciCard.vue";
 export default {
   props: ["info"],
   name: "UtakmicaCard",
+  data: function() {
+    return {
+      igraci: [],
+    };
+  },
+  mounted() {
+    this.dodajIgraca;
+  },
   computed: {
+    dodajIgraca() {
+      for (let i = 0; i < 23; i++) {
+        this.igraci.push({
+          igrac: this.info.igraci[i],
+        });
+        console.log(this.info.igraci[i]);
+      }
+    },
     postedFromNow() {
       return moment(this.info.datumObjave).fromNow();
     },
+  },
+  components: {
+    UtakmicaIgraciCard,
   },
 };
 </script>

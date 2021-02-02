@@ -28,7 +28,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.trenerUser"
               to="/ZapisnikUtakmica"
               >Utakmica
             </router-link>
@@ -36,7 +36,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.trenerUser"
               to="/ZapisnikTrening"
               >Trening
             </router-link>
@@ -44,25 +44,25 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.trenerUser"
               to="/Clanarine"
               >Članarine
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" v-if="store.currentUser" to="/Clanovi"
+            <router-link class="nav-link" v-if="store.trenerUser" to="/Clanovi"
               >Članovi
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" v-if="store.currentUser" to="/Treneri"
+            <router-link class="nav-link" v-if="store.trenerUser" to="/Treneri"
               >Treneri
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.trenerUser"
               to="/Kategorije"
               >Kategorija
             </router-link>
@@ -70,7 +70,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.trenerUser"
               to="/KreirajNovost"
               >Kreiraj novost
             </router-link>
@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { db } from "@/firebase";
 import store from "@/store.js";
 import { firebase } from "@/firebase";
 import router from "@/router";
@@ -115,8 +116,18 @@ firebase.auth().onAuthStateChanged((user) => {
 
   if (user) {
     //user is signed in.
-    console.log("***" + user.email);
+    console.log("**" + user.email);
     store.currentUser = user.email;
+    db.collection("treneri")
+      .where("email", "==", store.currentUser)
+      .get()
+      .then((query) => {
+        query.forEach((doc) => {
+          const data = doc.data();
+          store.trenerUser = store.currentUser;
+          console.log("TR " + store.trenerUser);
+        });
+      });
 
     if (!currentRoute.meta.needsUser) {
       router.push({ name: "Home" });
@@ -125,6 +136,7 @@ firebase.auth().onAuthStateChanged((user) => {
     //user is not signed in.
     console.log("***No user");
     store.currentUser = null;
+    store.trenerUser = null;
 
     if (currentRoute.meta.needsUser) {
       router.push({ name: "Login" });
@@ -138,7 +150,9 @@ export default {
     //funkcija
     return {
       //objekt
+      treneri: [],
       store: store,
+      brojac: 0,
     };
   },
 
@@ -149,6 +163,8 @@ export default {
         .signOut()
         .then(() => {
           this.$router.push({ name: "Login" });
+          store.trenerUser = null;
+          console.log("Log out trener " + store.trenerUser);
         });
     },
   },

@@ -145,28 +145,27 @@ export default {
   },
   methods: {
     dodajTrening() {
-      this.igraci.push({
-        igrac1: this.igrac1,
-        igrac2: this.igrac2,
-        igrac3: this.igrac3,
-        igrac4: this.igrac4,
-        igrac5: this.igrac5,
-        igrac6: this.igrac6,
-      });
-      db.collection("treninzi")
-        .add({
-          datum: this.datum,
-          vrijeme: this.vrijeme,
-          igraci: this.igraci,
-          trener: this.korisnik,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          alert("Podatak je unesen u bazu!!!");
-        })
-        .catch(function(e) {
-          alert(e);
-        });
+      (this.igraci[0] = this.igrac1),
+        (this.igraci[1] = this.igrac2),
+        (this.igraci[2] = this.igrac3),
+        (this.igraci[3] = this.igrac4),
+        (this.igraci[4] = this.igrac5),
+        (this.igraci[5] = this.igrac6),
+        db
+          .collection("treninzi")
+          .add({
+            datum: this.datum,
+            vrijeme: this.vrijeme,
+            igraci: this.igraci,
+            trener: this.korisnik,
+            dodano_u: Date.now(),
+          })
+          .then(() => {
+            alert("Podatak je unesen u bazu!!!");
+          })
+          .catch(function(e) {
+            alert(e);
+          });
     },
   },
   mounted() {
