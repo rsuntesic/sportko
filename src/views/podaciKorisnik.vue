@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-1"></div>
-    <div class="col-5">
+    <div class="col-sm">
       <h2>Clanairne korisnika</h2>
       <table class="table">
         <thead>
@@ -20,7 +20,7 @@
         />
       </table>
     </div>
-    <div class="col-5">
+    <div class="col-sm">
       <trening-card
         v-for="trening in treninzi"
         :key="trening.id"
@@ -76,6 +76,7 @@ export default {
               id: doc.id,
               datum: data.datum,
               vrijeme: data.vrijeme,
+              igraci: data.igraci,
               datumObjave: data.dodano_u,
             });
           });

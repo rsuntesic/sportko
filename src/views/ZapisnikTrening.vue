@@ -22,6 +22,12 @@
           placeholder="vrijeme"
         />
       </div>
+      <h2>Treninzi</h2>
+      <trening-card
+        v-for="trening in treninzi"
+        :key="trening.id"
+        :info="trening"
+      />
     </div>
     <div class="col-sm">
       <h2>Popis igraca na treningu:</h2>
@@ -124,9 +130,10 @@
 import { db } from "@/firebase";
 import store from "@/store";
 import PadajuciCard from "@/components/PadajuciCard.vue";
+import TreningCard from "@/components/TreningCard.vue";
 
 export default {
-  components: { PadajuciCard },
+  components: { PadajuciCard, TreningCard },
   name: "ZapisniTreninga",
   data() {
     return {
@@ -170,9 +177,32 @@ export default {
   },
   mounted() {
     //dohvat iz Firebasea
+    this.getPosts1;
     this.getPosts;
   },
   computed: {
+    getPosts1() {
+      console.log("Firebase dohvat");
+
+      db.collection("treninzi")
+        .orderBy("dodano_u", "desc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.treninzi = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.treninzi.push({
+              id: doc.id,
+              datum: data.datum,
+              vrijeme: data.vrijeme,
+              igraci: data.igraci,
+              datumObjave: data.dodano_u,
+            });
+          });
+        });
+    },
     getPosts() {
       console.log("Firebase dohvat");
       db.collection("clanovi")

@@ -10,8 +10,6 @@
                 <th scope="col">Ažuriraj</th>
                 <th scope="col">#</th>
                 <th scope="col">Naziv</th>
-                <th scope="col">Ulazno godište</th>
-                <th scope="col">Izlazno godište</th>
                 <th scope="col">Trener</th>
                 <th scope="col">Obriši</th>
               </tr>
@@ -38,24 +36,7 @@
                 placeholder="Naziv"
               />
             </div>
-            <div class="form-group">
-              <input
-                type="number"
-                v-model="ulaznoGodiste"
-                class="form-control"
-                id="ulaznoGodiste"
-                placeholder="Ulazno godište"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="number"
-                v-model="izlaznoGodiste"
-                class="form-control"
-                id="izlaznoGodiste"
-                placeholder="Izlazno godište"
-              />
-            </div>
+
             <div class="form-group">
               <label for="trener">Trener</label>
               <select
@@ -96,10 +77,8 @@ export default {
       padajuci: [],
       kategorije: [],
       korisnik: store.currentUser,
-      naziv: "",
-      ulaznoGodiste: "",
-      izlaznoGodiste: "",
-      trener: "",
+      naziv: null,
+      trener: null,
       brojac,
     };
   },
@@ -119,8 +98,6 @@ export default {
             this.kategorije.push({
               id: doc.id,
               naziv: data.naziv,
-              ulaznoGodiste: data.ulaznoGodiste,
-              izlaznoGodiste: data.izlaznoGodiste,
               trener: data.trener,
               brojac,
             });
@@ -131,18 +108,14 @@ export default {
       db.collection("kategorije")
         .add({
           naziv: this.naziv,
-          ulaznoGodiste: this.ulaznoGodiste,
-          izlaznoGodiste: this.izlaznoGodiste,
           trener: this.trener,
           korisnik: this.korisnik,
           dodano_u: Date.now(),
         })
         .then(() => {
-          console.log("Spremljeno");
-          this.naziv = "";
-          this.ulaznoGodiste = "";
-          this.izlaznoGodiste = "";
-          this.trener = "";
+          alert("Podatak je unesen u bazu!!!");
+          this.naziv = null;
+          this.trener = null;
         })
         .catch(function(e) {
           console.error(e);
@@ -167,14 +140,15 @@ export default {
 
             this.padajuci.push({
               id: doc.id,
-              naziv: data.email,
+              naziv: data.ime + " " + data.prezime,
+              email: data.email,
             });
           });
         });
     },
     getPosts() {
       db.collection("kategorije")
-        .orderBy("ulaznoGodiste", "asc")
+        .orderBy("naziv", "asc")
         .limit(10)
         .get()
         .then((query) => {
@@ -187,8 +161,6 @@ export default {
             this.kategorije.push({
               id: doc.id,
               naziv: data.naziv,
-              ulaznoGodiste: data.ulaznoGodiste,
-              izlaznoGodiste: data.izlaznoGodiste,
               trener: data.trener,
               brojac: brojac,
             });

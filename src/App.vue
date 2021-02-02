@@ -28,7 +28,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              v-if="store.currentUser"
+              v-if="store.currentUser && !store.trenerUser"
               to="/PodaciKorisnik"
               >Podaci o korisniku
             </router-link>

@@ -37,7 +37,7 @@
                 v-model="ime"
                 class="form-control"
                 id="imeKorisnika"
-                placeholder="Ime"
+                placeholder="Ime *"
               />
             </div>
             <div class="form-group">
@@ -46,7 +46,7 @@
                 v-model="prezime"
                 class="form-control"
                 id="prezime"
-                placeholder="Prezime"
+                placeholder="Prezime *"
               />
             </div>
             <div class="form-group">
@@ -56,11 +56,11 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Email"
+                placeholder="Email *"
               />
             </div>
             <div class="form-group">
-              <label for="licenca">Licenca</label>
+              <label for="licenca">Licenca *</label>
               <select
                 class="form-control"
                 id="mjesecLista"
@@ -94,6 +94,9 @@
                 placeholder="Adresa"
               />
             </div>
+            <label for="obavezno" style="font-size:10px"
+              >Podatci označeni sa * se moraju obavezno unijeti!!</label
+            >
             <button type="submit" class="btn btn-primary">
               Potvrdi
             </button>
@@ -152,8 +155,8 @@ export default {
             this.telefon = null;
             this.adresa = null;
           })
-          .catch(function(e) {
-            console.error(e);
+          .catch((e) => {
+            alert("Neki od podataka je krivo unesen!! " + e);
           });
       } else {
         alert("Telefon mora imati minimalno 9, a maksimalno 10 znamenki.");

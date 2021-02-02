@@ -12,8 +12,6 @@
       </th>
       <th scope="row">{{ info.brojac }}</th>
       <td>{{ info.naziv }}</td>
-      <td>{{ info.ulaznoGodiste }}</td>
-      <td>{{ info.izlaznoGodiste }}</td>
       <td>{{ info.trener }}</td>
       <th scope="row">
         <button
@@ -36,22 +34,12 @@ export default {
     return {
       id: "",
       naziv: null,
-      ulaznoGodiste: null,
-      izlaznoGodiste: null,
       trener: null,
     };
   },
   methods: {
     izmjeniKategorije() {
       this.info.naziv = prompt("Unesite naziv kategorije", this.info.naziv);
-      this.info.ulaznoGodiste = prompt(
-        "Unesite ulazno Godiste kategorije",
-        this.info.ulaznoGodiste
-      );
-      this.info.izlaznoGodiste = prompt(
-        "Unesite izlazno Godiste kategorije",
-        this.info.izlaznoGodiste
-      );
       this.info.trener = prompt("Unesite trenera kategorije", this.info.trener);
     },
     azurirajKategorije() {
@@ -62,8 +50,6 @@ export default {
           .doc(this.info.id)
           .update({
             naziv: this.info.naziv,
-            ulaznoGodiste: this.info.ulaznoGodiste,
-            izlaznoGodiste: this.info.izlaznoGodiste,
             trener: this.info.trener,
           })
           .then(function() {
