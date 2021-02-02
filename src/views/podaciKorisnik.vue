@@ -20,7 +20,13 @@
         />
       </table>
     </div>
-    <div class="col-5"></div>
+    <div class="col-5">
+      <trening-card
+        v-for="trening in treninzi"
+        :key="trening.id"
+        :info="trening"
+      />
+    </div>
     <div class="col-1"></div>
   </div>
 </template>
@@ -29,6 +35,7 @@
 import { db } from "@/firebase";
 import store from "@/store";
 import ClanarineClanCard from "@/components/ClanarineClanCard.vue";
+import TreningCard from "@/components/TreningCard.vue";
 
 let brojac = 0;
 
@@ -37,6 +44,7 @@ export default {
   data() {
     return {
       clanarine: [],
+      treninzi: [],
       trener: store.currentUser,
       mjesec: "",
       podmireno: "",
@@ -49,8 +57,30 @@ export default {
   mounted() {
     //dohvat iz Firebasea
     this.getPosts1;
+    this.getPosts;
   },
   computed: {
+    getPosts() {
+      console.log("Firebase dohvat");
+
+      db.collection("treninzi")
+        .orderBy("dodano_u", "desc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.treninzi = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.treninzi.push({
+              id: doc.id,
+              datum: data.datum,
+              vrijeme: data.vrijeme,
+              datumObjave: data.dodano_u,
+            });
+          });
+        });
+    },
     getPosts1() {
       db.collection("clanarine")
         .where("clan", "==", store.currentUser)
@@ -76,6 +106,7 @@ export default {
   },
   components: {
     ClanarineClanCard,
+    TreningCard,
   },
 };
 </script>
