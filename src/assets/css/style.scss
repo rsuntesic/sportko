@@ -1,0 +1,54 @@
+#app {
+    background-image: url(assets/nogomet_pozadina.jpg);
+    height: 768;
+    background-position: center;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: white; /* boja teksta */
+  }
+  
+  #nav {
+    padding: 30px;
+    background-color: rgb(174, 173, 177);
+    a {
+      font-weight: bold;
+      color: #ffffff;
+  
+      &.router-link-exact-active {
+        color: blue;
+      }
+    }
+    .nav-link {
+      color: green;
+    }
+    .nav-link:hover {
+      color: blue;
+    }
+    #pretraga {
+      color: purple;
+    }
+  }
+  
+  .card {
+    border-color: black;
+    border-width: 5px;
+    margin: 10px;
+    color: black;
+  }
+  
+  .card-header {
+    border-color: black;
+    border-width: 5px;
+  }
+  
+  .card-footer {
+    border-color: black;
+    border-width: 5px;
+  }
+  
+  .naslovi {
+    color: rgb(211, 195, 195);
+  }
+  

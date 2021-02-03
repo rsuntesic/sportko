@@ -2,19 +2,21 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col-5">
-      <h2>Novosti</h2>
+      <h2 class="naslovi">Novosti</h2>
       <novosti-card
         v-for="novost in filterdNovosti"
         :key="novost.id"
         :info="novost"
+        class="card"
       />
     </div>
     <div class="col-5">
-      <h2>Utakmice</h2>
+      <h2 class="naslovi">Utakmice</h2>
       <utakmica-card
         v-for="utakmica in utakmice"
         :key="utakmica.id"
         :info="utakmica"
+        class="card"
       />
     </div>
     <div class="col-1"></div>

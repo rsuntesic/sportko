@@ -88,6 +88,7 @@
           <input
             v-model="store.searchTerm"
             class="form-control mr-sm-2"
+            id="pretraga"
             type="search"
             placeholder="Pretraga"
             aria-label="Search"
@@ -104,7 +105,14 @@
           v-if="store.currentUser"
           @click.prevent="logout"
           class="nav-link"
-          >Logout
+        >
+          <img
+            src="@/assets/logout.png"
+            height="50"
+            class="d-inline-block align-top"
+            alt=""
+            loading="lazy"
+          />
         </a>
       </div>
     </nav>
@@ -180,24 +188,5 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #4028c5;
-}
-
-#nav {
-  padding: 30px;
-  background-color: #7562dd;
-  a {
-    font-weight: bold;
-    color: #ffffff;
-
-    &.router-link-exact-active {
-      color: #4028c5;
-    }
-  }
-}
+@import "@/assets/css/style.scss";
 </style>
