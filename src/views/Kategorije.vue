@@ -33,12 +33,12 @@
                 v-model="naziv"
                 class="form-control"
                 id="nazivKategorije"
-                placeholder="Naziv"
+                placeholder="Naziv *"
               />
             </div>
 
             <div class="form-group">
-              <label for="trener">Trener</label>
+              <label for="trener">Trener *</label>
               <select
                 class="form-control"
                 id="trener"
@@ -52,9 +52,16 @@
                 />
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Potvrdi
-            </button>
+            <div class="form-group">
+              <label for="obavezno" style="font-size:10px"
+                >Podatci označeni sa * se moraju obavezno unijeti!!</label
+              >
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                Potvrdi
+              </button>
+            </div>
           </form>
         </div>
         <div class="col-1"></div>
@@ -77,12 +84,27 @@ export default {
       padajuci: [],
       kategorije: [],
       korisnik: store.currentUser,
-      naziv: null,
-      trener: null,
+      naziv: "",
+      trener: "",
+      trenerID: "",
       brojac,
     };
   },
   methods: {
+    /*dohvatiID() {
+      db.collection("treneri")
+        .where(
+          ("ime", "==", this.naziv.ime) && ("prezime", "==", this.naziv.prezime)
+        )
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            const data = doc.data();
+            this.trenerID = doc.id;
+            console.log("Trener " + trenerID);
+          });
+        });
+    },*/
     getPosts1() {
       db.collection("kategorije")
         .orderBy("naziv", "asc")
@@ -105,21 +127,27 @@ export default {
         });
     },
     dodajKategoriju() {
-      db.collection("kategorije")
-        .add({
-          naziv: this.naziv,
-          trener: this.trener,
-          korisnik: this.korisnik,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          alert("Podatak je unesen u bazu!!!");
-          this.naziv = null;
-          this.trener = null;
-        })
-        .catch(function(e) {
-          console.error(e);
-        });
+      if (this.naziv != "" && this.trener != "") {
+        this.dohvatiID;
+        db.collection("kategorije")
+          .add({
+            naziv: this.naziv,
+            trener: this.trener,
+            korisnik: this.korisnik,
+            trenerID: this.trenerID,
+            dodano_u: Date.now(),
+          })
+          .then(() => {
+            alert("Podatak je unesen u bazu!!!");
+            this.naziv = "";
+            this.trener = "";
+          })
+          .catch(function(e) {
+            alert("Greška kod unosa!" + e);
+          });
+      } else {
+        alert("Neki od obaveznih podataka nije unesen!!");
+      }
     },
   },
   mounted() {

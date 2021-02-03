@@ -8,7 +8,6 @@
       <thead>
         <tr>
           <th scope="col">Igrač</th>
-          <th scope="col">Golovi</th>
         </tr>
       </thead>
       <utakmica-igraci-card
@@ -35,7 +34,8 @@ export default {
   },
   computed: {
     dodajIgraca() {
-      for (let i = 0; i < 23; i++) {
+      let duzina = this.info.igraci.length;
+      for (let i = 0; i < duzina; i++) {
         this.igraci.push({
           igrac: this.info.igraci[i],
         });

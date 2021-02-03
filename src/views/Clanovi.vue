@@ -38,7 +38,7 @@
                 v-model="ime"
                 class="form-control"
                 id="imeKorisnika"
-                placeholder="Ime"
+                placeholder="Ime *"
               />
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
                 v-model="prezime"
                 class="form-control"
                 id="prezime"
-                placeholder="Prezime"
+                placeholder="Prezime *"
               />
             </div>
             <div class="form-group">
@@ -57,7 +57,7 @@
                 class="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Email"
+                placeholder="Email *"
               />
             </div>
             <div class="form-group">
@@ -66,7 +66,7 @@
                 v-model="godiste"
                 class="form-control"
                 id="godiste"
-                placeholder="Godište"
+                placeholder="Godište *"
               />
             </div>
             <div class="form-group">
@@ -88,7 +88,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="kategorija">Kategorija</label>
+              <label for="kategorija">Kategorija *</label>
               <select
                 class="form-control"
                 id="kategorija"
@@ -102,9 +102,16 @@
                 />
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Potvrdi
-            </button>
+            <div class="form-group">
+              <label for="obavezno" style="font-size:10px"
+                >Podatci označeni sa * se moraju obavezno unijeti!!</label
+              >
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                Potvrdi
+              </button>
+            </div>
           </form>
         </div>
         <div class="col-1"></div>
@@ -166,31 +173,41 @@ export default {
     },
 
     dodajClana() {
-      db.collection("clanovi")
-        .add({
-          ime: this.ime,
-          prezime: this.prezime,
-          email: this.email,
-          godiste: this.godiste,
-          telefon: this.telefon,
-          adresa: this.adresa,
-          kategorija: this.kategorija,
-          trener: this.trener,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          console.log("Spremljeno");
-          this.ime = "";
-          this.prezime = "";
-          this.email = "";
-          this.godiste = "";
-          this.telefon = "";
-          this.adresa = "";
-          this.kategorija = "";
-        })
-        .catch(function(e) {
-          console.error(e);
-        });
+      if (
+        this.kategorija != "" &&
+        this.ime != "" &&
+        this.prezime != "" &&
+        this.email != "" &&
+        this.godiste != ""
+      ) {
+        db.collection("clanovi")
+          .add({
+            ime: this.ime,
+            prezime: this.prezime,
+            email: this.email,
+            godiste: this.godiste,
+            telefon: this.telefon,
+            adresa: this.adresa,
+            kategorija: this.kategorija,
+            trener: this.trener,
+            dodano_u: Date.now(),
+          })
+          .then(() => {
+            console.log("Spremljeno");
+            this.ime = "";
+            this.prezime = "";
+            this.email = "";
+            this.godiste = "";
+            this.telefon = "";
+            this.adresa = "";
+            this.kategorija = "";
+          })
+          .catch(function(e) {
+            alert("Greška kod unosa!" + e);
+          });
+      } else {
+        alert("Neki od obaveznih podataka nije unesen!!");
+      }
     },
   },
   mounted() {

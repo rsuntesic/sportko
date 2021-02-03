@@ -40,7 +40,6 @@ export default {
   methods: {
     izmjeniKategorije() {
       this.info.naziv = prompt("Unesite naziv kategorije", this.info.naziv);
-      this.info.trener = prompt("Unesite trenera kategorije", this.info.trener);
     },
     azurirajKategorije() {
       let n = confirm("Želite li uistinu ažurirati taj podatak");

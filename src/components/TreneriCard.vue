@@ -37,25 +37,22 @@ export default {
   data() {
     return {
       id: "",
-      ime: null,
-      prezime: null,
-      email: null,
-      licenca: null,
-      telefon: null,
-      adresa: null,
+      ime: "",
+      prezime: "",
+      email: "",
+      licenca: "",
+      telefon: "",
+      adresa: "",
     };
   },
   methods: {
     izmjeniTrenera() {
-      this.info.ime = prompt("Unesite ime trenera", this.info.ime);
-      this.info.prezime = prompt("Unesite prezime trenera", this.info.prezime);
-      this.info.email = prompt("Unesite email trenera", this.info.email);
-      this.info.licenca = prompt(
-        "Unesite kategoriju trenera",
-        this.info.licenca
-      );
-      this.info.telefon = prompt("Unesite telefon trenera", this.info.telefon);
-      this.info.adresa = prompt("Unesite adresu trenera", this.info.adresa);
+      this.info.ime = prompt("Unesite ime ", this.info.ime);
+      this.info.prezime = prompt("Unesite prezime ", this.info.prezime);
+      this.info.email = prompt("Unesite email ", this.info.email);
+      this.info.licenca = prompt("Unesite licencu ", this.info.licenca);
+      this.info.telefon = prompt("Unesite telefon ", this.info.telefon);
+      this.info.adresa = prompt("Unesite adresu ", this.info.adresa);
     },
     azurirajTrenera() {
       let n = confirm("Želite li uistinu ažurirati taj podatak");

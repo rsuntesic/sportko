@@ -35,11 +35,11 @@
                 v-model="cijena"
                 class="form-control"
                 id="cijena"
-                placeholder="Cijena"
+                placeholder="Cijena *"
               />
             </div>
             <div class="form-group">
-              <label for="mjesecLista">Mjesec</label>
+              <label for="mjesecLista">Mjesec *</label>
               <select
                 class="form-control"
                 id="mjesecLista"
@@ -61,7 +61,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="podmireno">Podmireno</label>
+              <label for="podmireno">Podmireno *</label>
               <select
                 class="form-control"
                 id="podmireno"
@@ -73,7 +73,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="clan">Član</label>
+              <label for="clan">Član *</label>
               <select class="form-control" id="clan" type="text" v-model="clan">
                 <padajuci-card
                   v-for="padajuci in padajuci"
@@ -82,9 +82,16 @@
                 />
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Potvrdi
-            </button>
+            <div class="form-group">
+              <label for="obavezno" style="font-size:10px"
+                >Podatci označeni sa * se moraju obavezno unijeti!!</label
+              >
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                Potvrdi
+              </button>
+            </div>
           </form>
         </div>
         <div class="col-1"></div>
@@ -139,25 +146,34 @@ export default {
         });
     },
     dodajClanarinu() {
-      db.collection("clanarine")
-        .add({
-          mjesec: this.mjesec,
-          podmireno: this.podmireno,
-          clan: this.clan,
-          cijena: this.cijena,
-          trener: this.trener,
-          dodano_u: Date.now(),
-        })
-        .then(() => {
-          console.log("Spremljeno");
-          this.mjesec = "";
-          this.podmireno = "";
-          this.clan = "";
-          this.cijena = "";
-        })
-        .catch(function(e) {
-          console.error(e);
-        });
+      if (
+        this.mjesec != "" &&
+        this.podmireno != "" &&
+        this.clan != "" &&
+        this.cijena != ""
+      ) {
+        db.collection("clanarine")
+          .add({
+            mjesec: this.mjesec,
+            podmireno: this.podmireno,
+            clan: this.clan,
+            cijena: this.cijena,
+            trener: this.trener,
+            dodano_u: Date.now(),
+          })
+          .then(() => {
+            console.log("Spremljeno");
+            this.mjesec = "";
+            this.podmireno = "";
+            this.clan = "";
+            this.cijena = "";
+          })
+          .catch(function(e) {
+            alert("Greška kod unosa!" + e);
+          });
+      } else {
+        alert("Neki od obaveznih podataka nije unesen!!");
+      }
     },
   },
   mounted() {
@@ -178,7 +194,8 @@ export default {
 
             this.padajuci.push({
               id: doc.id,
-              naziv: data.email,
+              naziv: data.ime + " " + data.prezime,
+              email: data.email,
             });
           });
         });

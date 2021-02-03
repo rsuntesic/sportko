@@ -34,13 +34,13 @@ export default {
   data() {
     return {
       id: "",
-      ime: "",
-      prezime: "",
-      email: "",
-      godiste: "",
-      telefon: "",
-      adresa: "",
-      kategorija: "",
+      ime: null,
+      prezime: null,
+      email: null,
+      godiste: null,
+      telefon: null,
+      adresa: null,
+      kategorija: null,
     };
   },
   methods: {

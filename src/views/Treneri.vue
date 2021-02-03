@@ -94,12 +94,16 @@
                 placeholder="Adresa"
               />
             </div>
-            <label for="obavezno" style="font-size:10px"
-              >Podatci označeni sa * se moraju obavezno unijeti!!</label
-            >
-            <button type="submit" class="btn btn-primary">
-              Potvrdi
-            </button>
+            <div class="form-group">
+              <label for="obavezno" style="font-size:10px"
+                >Podatci označeni sa * se moraju obavezno unijeti!!</label
+              >
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                Potvrdi
+              </button>
+            </div>
           </form>
         </div>
         <div class="col-1"></div>
@@ -122,19 +126,25 @@ export default {
     return {
       treneri: [],
       korisnik: store.currentUser,
-      ime: null,
-      prezime: null,
-      email: null,
-      licenca: null,
-      telefon: null,
-      adresa: null,
+      ime: "",
+      prezime: "",
+      email: "",
+      licenca: "",
+      telefon: "",
+      adresa: "",
       brojac,
     };
   },
 
   methods: {
     dodajTrenera() {
-      if (this.telefon.length == 9 || this.telefon.length == 10) {
+      if (
+        (this.telefon.length == 9 || this.telefon.length == 10) &&
+        this.ime != "" &&
+        this.prezime != "" &&
+        this.email != "" &&
+        this.licenca != ""
+      ) {
         db.collection("treneri")
           .add({
             korisnik: this.korisnik,
@@ -148,18 +158,18 @@ export default {
           })
           .then(() => {
             alert("Podatak je unesen u bazu!!!");
-            this.ime = null;
-            this.prezime = null;
-            this.email = null;
-            this.licenca = null;
-            this.telefon = null;
-            this.adresa = null;
+            this.ime = "";
+            this.prezime = "";
+            this.email = "";
+            this.licenca = "";
+            this.telefon = "";
+            this.adresa = "";
           })
           .catch((e) => {
-            alert("Neki od podataka je krivo unesen!! " + e);
+            alert("Greška kod unosa!" + e);
           });
       } else {
-        alert("Telefon mora imati minimalno 9, a maksimalno 10 znamenki.");
+        alert("Neki od obaveznih podataka nije unesen!!");
       }
     },
     getPosts1() {
