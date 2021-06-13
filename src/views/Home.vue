@@ -92,11 +92,11 @@ export default {
     filterdNovosti() {
       let termin = this.store.searchTerm;
 
-      //PROBLEM VELIKA SLOVA------------------------------------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      //funkcijska metoda filter
+      termin = termin.toUpperCase();
       return this.novosti.filter(
         (novost) =>
-          novost.naslov.includes(termin) || novost.opis.includes(termin)
+          novost.naslov.toUpperCase().includes(termin) ||
+          novost.opis.toUpperCase().includes(termin)
       );
     },
   },

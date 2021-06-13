@@ -30,93 +30,66 @@
       />
     </div>
     <div class="col-sm">
-      <h2>Popis igraca na treningu:</h2>
+      <h2>Popis igrača na treningu:</h2>
       <form @submit.prevent="dodajTrening">
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label for="igrac">Igrac</label>
+
+              <select
+                class="form-control"
+                id="igrac1"
+                type="text"
+                v-model="igrac"
+              >
+                <padajuci-card
+                  v-for="padajuci in padajuci"
+                  :key="padajuci.id"
+                  :info="padajuci"
+                />
+              </select>
+            </div>
+          </div>
+          <div
+            class="col-2"
+            style="margin-top: 15px; 
+              margin-left: -15px;"
+          >
+            <button
+              type="button"
+              @click.prevent="dodajIgraca()"
+              class="btn btn-primary"
+              style="width:35px; height: 35px;"
+            >
+              +
+            </button>
+          </div>
+        </div>
         <div class="form-group">
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac1"
-              type="text"
-              v-model="igrac1"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac2"
-              type="text"
-              v-model="igrac2"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac3"
-              type="text"
-              v-model="igrac3"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac1"
-              type="text"
-              v-model="igrac4"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac2"
-              type="text"
-              v-model="igrac5"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
-          <div class="form-group">
-            <select
-              class="form-control"
-              id="igrac3"
-              type="text"
-              v-model="igrac6"
-            >
-              <padajuci-card
-                v-for="padajuci in padajuci"
-                :key="padajuci.id"
-                :info="padajuci"
-              />
-            </select>
-          </div>
+          <table class="table">
+            <tbody v-for="(ing, i) in igraci" :key="i">
+              <tr>
+                <th scope="row" style="font-weight: normal;">
+                  {{ i + 1 }}
+                </th>
+                <td style="font-weigt: bold; ">
+                  {{ ing.igrac }}
+                </td>
+
+                <td>
+                  <button
+                    type="button"
+                    @click.prevent="obrisiIgraca(i)"
+                    class="btn btn-primary"
+                    style="height:30px; width: 30px; margin-top: -5px; font-size: 10px;"
+                  >
+                    x
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <button type="submit" class="btn btn-primary">
           Unesi podatke u bazu
@@ -140,39 +113,41 @@ export default {
       korisnik: store.currentUser,
       padajuci: [],
       igraci: [],
-      igrac1: "",
-      igrac2: "",
-      igrac3: "",
-      igrac4: "",
-      igrac5: "",
-      igrac6: "",
+      igrac: "",
       datum: "",
       vrijeme: "",
     };
   },
   methods: {
+    obrisiIgraca(broj) {
+      console.log(broj);
+      this.igraci.splice(broj, 1);
+    },
+    dodajIgraca() {
+      if (this.igrac) {
+        this.igraci.push({
+          igrac: this.igrac,
+        });
+        (this.igrac = ""), console.log(this.igrac);
+      } else {
+        alert("Neki podatak je krivo unesen!!");
+      }
+    },
     dodajTrening() {
-      (this.igraci[0] = this.igrac1),
-        (this.igraci[1] = this.igrac2),
-        (this.igraci[2] = this.igrac3),
-        (this.igraci[3] = this.igrac4),
-        (this.igraci[4] = this.igrac5),
-        (this.igraci[5] = this.igrac6),
-        db
-          .collection("treninzi")
-          .add({
-            datum: this.datum,
-            vrijeme: this.vrijeme,
-            igraci: this.igraci,
-            trener: this.korisnik,
-            dodano_u: Date.now(),
-          })
-          .then(() => {
-            alert("Podatak je unesen u bazu!!!");
-          })
-          .catch(function(e) {
-            alert(e);
-          });
+      db.collection("treninzi")
+        .add({
+          datum: this.datum,
+          vrijeme: this.vrijeme,
+          igraci: this.igraci,
+          trener: this.korisnik,
+          dodano_u: Date.now(),
+        })
+        .then(() => {
+          alert("Podatak je unesen u bazu!!!");
+        })
+        .catch(function(e) {
+          alert(e);
+        });
     },
   },
   mounted() {

@@ -7,10 +7,25 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Naziv</th>
+            <th scope="col">Mjesec</th>
             <th scope="col">Podmireno</th>
             <th scope="col">Cijena</th>
             <th scope="col">Član</th>
+          </tr>
+        </thead>
+        <clanarine-clan-card
+          v-for="clanarine in clanarine"
+          :key="clanarine.id"
+          :info="clanarine"
+        />
+      </table>
+      <h2>Prisutnost na treningu</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Prisutan</th>
           </tr>
         </thead>
         <clanarine-clan-card
@@ -84,7 +99,7 @@ export default {
     },
     getPosts1() {
       db.collection("clanarine")
-        .where("clan", "==", store.currentUser)
+        .where("email", "==", store.currentUser)
         .get()
         .then((query) => {
           this.clanarine = [];

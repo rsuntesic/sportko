@@ -1,6 +1,6 @@
 <template>
   <tbody>
-    <td>{{ info.igrac }}</td>
+    <td>{{ info.igrac.igrac }}</td>
   </tbody>
 </template>
 <script>

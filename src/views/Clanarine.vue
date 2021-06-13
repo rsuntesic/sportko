@@ -39,6 +39,15 @@
               />
             </div>
             <div class="form-group">
+              <input
+                type="text"
+                v-model="email"
+                class="form-control"
+                id="email"
+                placeholder="Email clana"
+              />
+            </div>
+            <div class="form-group">
               <label for="mjesecLista">Mjesec *</label>
               <select
                 class="form-control"
@@ -113,6 +122,7 @@ export default {
     return {
       padajuci: [],
       clanarine: [],
+      email: "",
       trener: store.currentUser,
       mjesec: "",
       podmireno: "",
@@ -155,6 +165,7 @@ export default {
         db.collection("clanarine")
           .add({
             mjesec: this.mjesec,
+            email: this.email,
             podmireno: this.podmireno,
             clan: this.clan,
             cijena: this.cijena,
@@ -167,6 +178,7 @@ export default {
             this.podmireno = "";
             this.clan = "";
             this.cijena = "";
+            this.email = "";
           })
           .catch(function(e) {
             alert("Greška kod unosa!" + e);
