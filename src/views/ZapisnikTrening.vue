@@ -50,6 +50,15 @@
                 />
               </select>
             </div>
+            <div class="form-group">
+              <input
+                type="text"
+                v-model="email"
+                class="form-control"
+                id="email"
+                placeholder="Email *"
+              />
+            </div>
           </div>
           <div
             class="col-2"
@@ -76,7 +85,9 @@
                 <td style="font-weigt: bold; ">
                   {{ ing.igrac }}
                 </td>
-
+                <td style="font-weigt: bold;">
+                  {{ ing.email }}
+                </td>
                 <td>
                   <button
                     type="button"
@@ -104,6 +115,7 @@ import { db } from "@/firebase";
 import store from "@/store";
 import PadajuciCard from "@/components/PadajuciCard.vue";
 import TreningCard from "@/components/TreningCard.vue";
+import ZapisnikUtakmicaVue from "./ZapisnikUtakmica.vue";
 
 export default {
   components: { PadajuciCard, TreningCard },
@@ -113,22 +125,30 @@ export default {
       korisnik: store.currentUser,
       padajuci: [],
       igraci: [],
+      emailovi: [],
+      email: "",
       igrac: "",
       datum: "",
       vrijeme: "",
+      brojac: 0,
     };
   },
   methods: {
     obrisiIgraca(broj) {
       console.log(broj);
       this.igraci.splice(broj, 1);
+      this.emailovi.splice(broj, 1);
     },
     dodajIgraca() {
-      if (this.igrac) {
+      if (this.igrac && this.email) {
+        this.emailovi.push({
+          email: this.email,
+        });
         this.igraci.push({
           igrac: this.igrac,
         });
         (this.igrac = ""), console.log(this.igrac);
+        this.email = "";
       } else {
         alert("Neki podatak je krivo unesen!!");
       }
@@ -138,6 +158,7 @@ export default {
         .add({
           datum: this.datum,
           vrijeme: this.vrijeme,
+          emailovi: this.emailovi,
           igraci: this.igraci,
           trener: this.korisnik,
           dodano_u: Date.now(),
@@ -148,6 +169,14 @@ export default {
         .catch(function(e) {
           alert(e);
         });
+      this.emailovi.forEach((element) => {
+        db.collection("igraci_trening").add({
+          datum: this.datum,
+          vrijeme: this.vrijeme,
+          email_igraca: this.emailovi[this.brojac].email,
+        });
+        this.brojac++;
+      });
     },
   },
   mounted() {
@@ -188,7 +217,7 @@ export default {
             const data = doc.data();
             this.padajuci.push({
               id: doc.id,
-              naziv: data.ime + " " + data.prezime,
+              naziv: data.ime + " " + data.prezime + " (" + data.email + ") ",
             });
           });
         });

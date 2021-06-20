@@ -7,7 +7,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Mjesec</th>
+            <th scope="col">Naziv</th>
             <th scope="col">Podmireno</th>
             <th scope="col">Cijena</th>
             <th scope="col">Član</th>
@@ -19,28 +19,23 @@
           :info="clanarine"
         />
       </table>
-      <h2>Prisutnost na treningu</h2>
+    </div>
+    <div class="col-sm">
+      <h2>Treninzi korisnika</h2>
       <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Datum</th>
-            <th scope="col">Prisutan</th>
+            <th scope="col">Vrijeme</th>
           </tr>
         </thead>
-        <clanarine-clan-card
-          v-for="clanarine in clanarine"
-          :key="clanarine.id"
-          :info="clanarine"
+        <korisnik-card
+          v-for="trening in treninzi"
+          :key="trening.id"
+          :info="trening"
         />
       </table>
-    </div>
-    <div class="col-sm">
-      <trening-card
-        v-for="trening in treninzi"
-        :key="trening.id"
-        :info="trening"
-      />
     </div>
     <div class="col-1"></div>
   </div>
@@ -50,7 +45,7 @@
 import { db } from "@/firebase";
 import store from "@/store";
 import ClanarineClanCard from "@/components/ClanarineClanCard.vue";
-import TreningCard from "@/components/TreningCard.vue";
+import KorisnikCard from "@/components/KorisnikCard.vue";
 
 let brojac = 0;
 
@@ -78,21 +73,22 @@ export default {
     getPosts() {
       console.log("Firebase dohvat");
 
-      db.collection("treninzi")
-        .orderBy("dodano_u", "desc")
-        .limit(10)
+      db.collection("igraci_trening")
+        .where("email_igraca", "==", store.currentUser)
+        .orderBy("datum", "desc")
         .get()
         .then((query) => {
           this.treninzi = [];
+          brojac = 0;
           query.forEach((doc) => {
             const data = doc.data();
-
+            brojac++;
             this.treninzi.push({
               id: doc.id,
               datum: data.datum,
               vrijeme: data.vrijeme,
-              igraci: data.igraci,
-              datumObjave: data.dodano_u,
+              email_igraca: data.email_igraca,
+              brojac: brojac,
             });
           });
         });
@@ -122,7 +118,7 @@ export default {
   },
   components: {
     ClanarineClanCard,
-    TreningCard,
+    KorisnikCard,
   },
 };
 </script>
